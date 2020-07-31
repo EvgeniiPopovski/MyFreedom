@@ -1,0 +1,50 @@
+.mainContainer {
+    display: flex;
+    width: 520px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.buttonsContainer{
+    width: 100%;
+    height: 30px; 
+    display: flex;
+    justify-content: space-between;
+}
+.inputContainer {
+    width: 100%;
+    height: 30px;
+    margin: 10px 0;
+}
+
+.button {
+    width: 30%;
+    height: 100%;
+    border: none;
+    background-color: lightskyblue;
+    color: white;
+    border-radius: 5%;
+}
+.button:hover{
+    background-color: blue;
+}
+
+.input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+.todoItem {
+    list-style-type: none;
+    border: solid 1px lightslategray;
+    border-radius: 5px;
+    margin: 5px 0; 
+    padding: 5px  0 5px 20px;
+}
+.itemsList {
+    margin: 10px 0;
+    width: 100%;
+    padding: 0;
+}
