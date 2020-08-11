@@ -30,17 +30,17 @@ class App extends React.Component {
 	render() {
 		return (
 			<>
-				<div className="first_point">
+				<div className="first point">
 					<h1>Первый пункт</h1>
 					<PropsItems changeProp={this.changeBtn} propsArr={socials} />
 					<SociaButton type={this.state.btnContent} />
 				</div>
-				<div className="second_point">
+				<div className="second point">
 					<h1>Второй пункт</h1>
 					<TwitterButton />
 					<FacebookButton />
 				</div>
-				<div className="third_point">
+				<div className="third point">
 					<h1>Третий пункт</h1>
 					<PropsItems
 						changeProp={this.changeOrientation}
@@ -48,11 +48,11 @@ class App extends React.Component {
 					/>
 					<IconBar orientation={this.state.iconBarOrientation} />
 				</div>
-				<div className="fourth_point">
+				<div className="fourth point">
 					<h1>Четверый пункт</h1>
 					<Accountant />
 				</div>
-				<div className="fifth_point">
+				<div className="fifth point">
 					<h1>Пятый пункт</h1>
 					<NavBar items={['Home','Search', 'About' ]} initialActiveItemId='Home' />
 				</div>

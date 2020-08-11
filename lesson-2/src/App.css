@@ -43,11 +43,22 @@ ul {
   align-items: flex-start;
   justify-content: space-evenly;
 }
+.accountant {
+  flex-direction: column;
+}
 
 h1{
   display: flex;
   align-self: center;
   justify-content: center;
+  margin-top: 0;
+}
+
+.point {
+  background-color: rgb(209, 225, 255);
+}
+.point:nth-of-type(2n) {
+  background-color: rgb(163, 191, 245);
 }
 
 #root {

@@ -53,7 +53,7 @@ class Accountant extends React.Component {
 		return (
 			<div>
 				<h3>Карманная Бухгалтерия для самых маленьких</h3>
-				<ul>{renderItems}</ul>
+				<ul className='accountant'>{renderItems}</ul>
 				<label>
 					Сумма, руб.
 					<input
@@ -77,7 +77,7 @@ class Accountant extends React.Component {
 				<p>
 					ИТОГО <span> {sum} </span>
 				</p>
-				<button onClick={this.addCostItem}>Добавить</button>
+				<button disabled={!this.state.inputValue || !this.state.costValue} onClick={this.addCostItem}>Добавить</button>
 			</div>
 		);
 	}
