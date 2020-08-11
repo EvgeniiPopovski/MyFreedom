@@ -10,6 +10,11 @@ class Accountant extends React.Component {
 			costValue: "",
 		};
 	}
+	componentDidMount() {
+		let items = localStorage.getItem('items')
+		this.setState({costItems : JSON.parse(items)})
+	}
+
 	onCostChange = (event) => {
 		this.setState({ ...this.state, costValue: event.target.value });
 	};
@@ -25,14 +30,15 @@ class Accountant extends React.Component {
 		let stateCopy = { ...this.state };
 		stateCopy.costItems = [...this.state.costItems, item];
 		this.setState(stateCopy, () =>
-			this.setState({ ...this.state, inputValue: "", costValue: "" })
+			this.setState({ ...this.state, inputValue: "", costValue: "" }, () => localStorage.setItem('items' , JSON.stringify(this.state.costItems)))
 		);
+		
 	};
 	deleteCostItem = (id) => {
 		let stateCopy = { ...this.state };
 		let filtereArr = this.state.costItems.filter((item) => item.id !== id);
 		stateCopy.costItems = filtereArr;
-		this.setState(stateCopy);
+		this.setState(stateCopy , () => localStorage.setItem('items' , JSON.stringify(this.state.costItems)));
 	};
 
 	render() {
