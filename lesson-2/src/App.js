@@ -37,8 +37,13 @@ class App extends React.Component {
 				</div>
 				<div className="second point">
 					<h1>Второй пункт</h1>
-					<TwitterButton />
-					<FacebookButton />
+					<TwitterButton>
+						<SociaButton type={'twitter'}/>
+					</TwitterButton>
+					<FacebookButton>
+						<SociaButton type={'facebook'}/>
+					</FacebookButton>
+					
 				</div>
 				<div className="third point">
 					<h1>Третий пункт</h1>

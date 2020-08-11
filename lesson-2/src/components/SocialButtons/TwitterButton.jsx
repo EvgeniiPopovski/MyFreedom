@@ -1,12 +1,8 @@
 import React from 'react'
 import './../../App'
 
-const TwitterButton = () => {
-    return (
-        <button className='fa fa-twitter'>
-            <a href='https://twitter.com' alt="Twitter"></a>
-        </button>
-    )
+const TwitterButton = ({children}) => {
+    return {...children}
 }
 
 export {TwitterButton}
