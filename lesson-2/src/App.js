@@ -6,18 +6,17 @@ import { FacebookButton } from "./components/SocialButtons/FacebookButton";
 import { TwitterButton } from "./components/SocialButtons/TwitterButton";
 import { IconBar } from "./components/IconBar/IconBar";
 import { Accountant } from "./components/Accountant/Accountant";
+import { NavBar } from "./components/NavBar/NavBar";
 
-const  socials = ["facebook" , "twitter","youtube" , 'pinterest' , 'linkedin' , 'instagram']
-const  orientation = ['horizontal' , 'vertical']
-
-
+const socials = ["facebook", "twitter", "youtube", "pinterest", "linkedin", "instagram"];
+const orientation = ["horizontal", "vertical"];
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-      btnContent: "facebook",
-      iconBarOrientation : 'horizontal'
+			btnContent: "facebook",
+			iconBarOrientation: "horizontal",
 		};
 	}
 
@@ -32,23 +31,30 @@ class App extends React.Component {
 		return (
 			<>
 				<div className="first_point">
-					<h2>Первый пункт</h2>
-					<PropsItems changeProp={this.changeBtn}  propsArr={socials}/>
+					<h1>Первый пункт</h1>
+					<PropsItems changeProp={this.changeBtn} propsArr={socials} />
 					<SociaButton type={this.state.btnContent} />
 				</div>
 				<div className="second_point">
-					<h2>Второй пункт</h2>
-          <TwitterButton />
-          <FacebookButton />
+					<h1>Второй пункт</h1>
+					<TwitterButton />
+					<FacebookButton />
 				</div>
 				<div className="third_point">
-					<h2>Третий пункт</h2>
-          <PropsItems changeProp={this.changeOrientation} propsArr={orientation}/>
-          <IconBar orientation={this.state.iconBarOrientation} />
+					<h1>Третий пункт</h1>
+					<PropsItems
+						changeProp={this.changeOrientation}
+						propsArr={orientation}
+					/>
+					<IconBar orientation={this.state.iconBarOrientation} />
 				</div>
 				<div className="fourth_point">
-					<h2>Четверый пункт</h2>
-          <Accountant />
+					<h1>Четверый пункт</h1>
+					<Accountant />
+				</div>
+				<div className="fifth_point">
+					<h1>Пятый пункт</h1>
+					<NavBar items={['Home','Search', 'About' ]} initialActiveItemId='Home' />
 				</div>
 			</>
 		);

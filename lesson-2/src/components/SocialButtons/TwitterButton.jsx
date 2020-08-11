@@ -4,7 +4,7 @@ import './../../App'
 const TwitterButton = () => {
     return (
         <button className='fa fa-twitter'>
-            <a href='https://twitter.com' alt="Twitter">twitter</a>
+            <a href='https://twitter.com' alt="Twitter"></a>
         </button>
     )
 }

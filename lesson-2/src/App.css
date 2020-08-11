@@ -37,7 +37,22 @@
   }
 }
 
+ul {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-evenly;
+}
 
+h1{
+  display: flex;
+  align-self: center;
+  justify-content: center;
+}
+
+#root {
+  width: 950px;
+}
 .fa {
   padding: 20px;
   font-size: 30px;
@@ -90,7 +105,7 @@ li {
   background-color: #555; /* Dark-grey background */
 }
 
-.icon-bar a {
+.icon-bar span {
   display: block; /* Make the links appear below each other instead of side-by-side */
   text-align: center; /* Center-align text */
   padding: 16px; /* Add some padding */
@@ -99,7 +114,7 @@ li {
   font-size: 36px; /* Increased font-size */
 }
 
-.icon-bar a:hover {
+.icon-bar span:hover {
   background-color: #000; /* Add a hover color */
 }
 
@@ -114,7 +129,7 @@ li {
   overflow: auto; /* Overflow due to float */
 }
 
-.icon-bar.icon-bar.horizontal a {
+.icon-bar.icon-bar.horizontal span {
   float: left; /* Float links side by side */
   text-align: center; /* Center-align text */
   width: 20%; /* Equal width (5 icons with 20% width each = 100%) */

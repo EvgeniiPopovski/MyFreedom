@@ -10,21 +10,21 @@ const IconBar = ({ orientation }) => {
 
 	return (
 		<div className={additionalClass}>
-            <a className="active" href="home.com">
+            <span className="active" >
 				<i className="fa fa-home"></i>
-			</a>
-			<a href="home.com">
+			</span>
+			<span >
 				<i className="fa fa-search"></i>
-			</a>
-			<a href="home.com">
+			</span>
+			<span >
 				<i className="fa fa-envelope"></i>
-			</a>
-			<a href="home.com">
+			</span>
+			<span >
 				<i className="fa fa-globe"></i>
-			</a>
-			<a href="home.com">
+			</span>
+			<span >
 				<i className="fa fa-trash"></i>
-			</a>
+			</span>
 		</div>
 	);
 };
