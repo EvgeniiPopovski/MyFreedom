@@ -6,7 +6,7 @@ class UsersCollection extends React.Component {
 	state = {
 		users: null,
 		isLoading: true,
-		errors: "",
+		error: "",
 	};
 
 	async componentDidMount() {
@@ -15,7 +15,7 @@ class UsersCollection extends React.Component {
 			this.setState({ users, isLoading: false });
 			this.props.changeActiveUser(this.state.users[0].id);
 		} catch (error) {
-			this.setState({ error, isLoading: false });
+			this.setState({ error, isLoading: false } , () => console.log(this.state.error));
 		}
 	}
 
@@ -23,8 +23,8 @@ class UsersCollection extends React.Component {
 		if (this.state.isLoading) {
 			return <div>...Loading...</div>;
 		}
-		if (this.state.errors) {
-			return <div>{this.state.errors}</div>;
+		if (this.state.error) {
+			return <div> An Error oquired{this.state.error.name}</div>;
 		}
 		return (
 			<div className='column users'>

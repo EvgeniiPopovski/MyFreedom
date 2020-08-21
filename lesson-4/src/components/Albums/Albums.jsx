@@ -23,7 +23,7 @@ class Albums extends React.Component {
 			return <div>...Loading...</div>;
 		}
 		if (this.state.error) {
-			return <div>An Error oquired {this.state.error}</div>;
+			return <div>An Error oquired {this.state.error.name}</div>;
 		}
 		return (
 			<div className='column albums'> 
