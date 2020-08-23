@@ -18,7 +18,7 @@ class App extends React.Component {
     return (
       <div className='container'>
         <UsersCollection changeActiveUser={this.changeActiveUser} activeUserId={this.state.activeUserId} />
-        <Albums />
+        <Albums  activeUserId={this.state.activeUserId}/>
       </div>
     );
   }

@@ -1,3 +1,5 @@
+*{box-sizing: border-box;}
+
 .App {
   text-align: center;
 }
@@ -47,10 +49,33 @@ body{
   display: flex;
   flex-direction: row;
   width: 920px;
-  background-color: lightgray;
+  
   justify-content: space-between;
 }
 
 .active {
-  background-color: lightsalmon
+  background-color: lightgray;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.albums {
+  flex-grow: 1;
+  background-color:lightgray; 
+}
+.users{
+  width: 30%
+}
+.header{
+  align-self: center;
+}
+
+p {
+  margin: 0;
+  padding: 10px 0 10px 25px;
+  border-top: 1px solid black;
+  cursor: pointer;
 }
