@@ -17,8 +17,10 @@ const serverAPI = {
             },
             body: JSON.stringify(film)
         })
+        let respomeItem = await response.json()
+        console.log(respomeItem)
         if (response.ok) {
-            return response
+            return respomeItem
         } else {
             throw new Error('Произошла ошибка при сохранении фильма')
         }

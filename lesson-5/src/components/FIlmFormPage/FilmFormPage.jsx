@@ -3,7 +3,7 @@ import { Button } from "../common/Button/Button";
 import { Input } from "../common/Input/Input";
 
 const selectOptions = ["Просмотрен", "Не просмотрен", "Хочу Посмотреть"];
-const validateYear = (year, rating, title, director) => {
+const validateForm = (year, rating, title, director) => {
 	if (!year || !rating || !title || !director) {
 		return true;
 	}
@@ -93,22 +93,15 @@ class FilmFormPage extends React.Component {
 						</select>
 					</div>
 					<Button
-						disabled={validateYear(
+						disabled={validateForm(
 							this.state.year,
 							this.state.rating,
 							this.state.title,
 							this.state.director
 						)}
-						buttonMode="add"
-						onClick={async () => {
-							try {
-								this.props.changeParrentState(this.state);
-								await this.props.serverRequest(this.state);
-								this.props.changeRenderMode("list");
-							} catch (e) {
-								console.log(e);
-								this.props.setError(e.message);
-							}
+						mode="add"
+						onClick={ () => {
+							this.props.onAdd( this.props.changeParrentState,this.state, this.props.serverRequest , 'list')
 						}}
 					>
 						Coхранить

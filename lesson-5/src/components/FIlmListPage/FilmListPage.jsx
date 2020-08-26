@@ -24,7 +24,7 @@ class FilmListPage extends React.Component {
 							<td>{film.rating}</td>
 							<td>{film.status}</td>
 							<td>
-								<Button onClick={() => this.props.setFilmOnEdit(film.id, "edit")} buttonMode='edit'>
+								<Button onClick={() => this.props.setFilmOnEdit(film.id, "edit")} mode='edit'>
 									Редактировать
 								</Button>
 							</td>
@@ -38,7 +38,7 @@ class FilmListPage extends React.Component {
 											this.props.setError(e.message)
 										}
 									}}
-									buttonMode='delete'
+									mode='delete'
 								>
 									Удалить
 								</Button>
