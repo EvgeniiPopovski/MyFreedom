@@ -73,6 +73,7 @@ const SettingsForm = ({
       <Form.Group>
         <Form.Label>Нотификаии включены</Form.Label>
         <Form.Check
+          value={isNotificationEnabled}
           checked={isNotificationEnabled}
           onChange={e => onNotificationSettingChanged(e.target.checked)}
         />
@@ -80,6 +81,7 @@ const SettingsForm = ({
       <Form.Group>
         <Form.Label>Другие пользователи видят, что вы в сети</Form.Label>
         <Form.Check
+          value={isOnlineStatusVisible}
           checked={isOnlineStatusVisible}
           onChange={e => onOnlineStatusSettingChanged(e.target.checked)}
         />

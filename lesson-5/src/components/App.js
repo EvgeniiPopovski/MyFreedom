@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { serverAPI } from "../API/serverAPI";
 import Preloader from "./common/Preloader/Preloader";
@@ -16,137 +16,140 @@ const displayMode = {
 	delete: "delete",
 };
 
-class App extends React.Component {
-	state = {
-		films: null,
-		loading: true,
-		error: null,
+const App = () => {
 
-		filmOnEdit: "",
+	const [films, setFilms] = useState(null)
+	const [loading, setLoading] = useState(true)
+	const [error, setError] = useState(null)
+	const [filmOnEdit, setFilmOnEdit] = useState('')
+	const [renderMode, setRenderMode] = useState(displayMode.list)
 
-		renderMode: displayMode.list,
+	const selectFilmOnEdit = (filmId, mode) => {
+		setFilmOnEdit(filmId)
+		setRenderMode(displayMode[mode]);
 	};
 
-	setFilmOnEdit = (filmId, mode) => {
-		this.setState({ filmOnEdit: filmId, renderMode: displayMode[mode] });
-	};
-
-	addFilm = (film , filmId) => {
+	const addFilm = (film, filmId) => {
 		film.id = filmId;
-		this.setState({ films: [...this.state.films, film] });
+		setFilms([...films, film]);
 	};
 
-	deleteFilm = (id) => {
-		this.setState({ films: this.state.films.filter((film) => film.id !== id) });
+	const deleteFilm = (id) => {
+		setFilms([...films.filter((film) => film.id !== id)]);
 	};
 
-	editFilm = (newFilm) => {
-		let index = this.state.films.findIndex((film) => film.id === newFilm.id);
-		let films = [
-			...this.state.films.slice(0, index),
+	const editFilm = (newFilm) => {
+		let index = films.findIndex((film) => film.id === newFilm.id);
+		let filmsArr = [
+			...films.slice(0, index),
 			newFilm,
-			...this.state.films.slice(index + 1),
+			...films.slice(index + 1),
 		];
-		this.setState({ films: films });
+		setFilms(filmsArr);
 	};
 
-	setError = (e) => {
-		this.setState({ error: e });
+	const setNewError = (e) => {
+		setError(e);
 	};
 
-	changeRenderMode = (mode) => {
-		this.setState({ renderMode: displayMode[mode] });
+	const changeRenderMode = (mode) => {
+		setRenderMode(displayMode[mode]);
 	};
 
-	onAdd = async (changeParrentState, state, severComand, renderMode) => {
+	const onAdd = async (changeParrentState, state, severComand, renderMode) => {
 		try {
 			let response = await severComand(state);
-			changeParrentState(state , response.id);
-			this.changeRenderMode(renderMode);
+			changeParrentState(state, response.id);
+			setRenderMode(renderMode);
 		} catch (e) {
-			this.setError(e.message);
+			setError(e.message);
 		}
 	};
 
-	async componentDidMount() {
-		try {
-			let payload = await serverAPI.getFilms();
-			this.setState({ films: payload, loading: false });
-		} catch (error) {
-			this.setError(error.message);
-		} finally {
-			this.setState({ loading: false });
+	useEffect(() => {
+		let fetchFilms = async () => {
+			try {
+				let payload = await serverAPI.getFilms();
+				setFilms(payload)
+				setLoading(false);
+			} catch (error) {
+				setError(error.message);
+			} finally {
+				setLoading(false);
+			}
 		}
-	}
+		fetchFilms()
+	}, [])
 
-	render() {
-		if (this.state.loading) {
-			return (
-				<div>
-					<Preloader />
-				</div>
-			);
-		}
-		if (this.state.error) {
-			return (
-				<div
-					className={clsns({
-						error: true,
-						error__active: this.state.error,
-					})}
-				>
-					{this.state.error}
-				</div>
-			);
-		}
+
+
+	if (loading) {
 		return (
-			<>
-				<div className="App">
-					<h1 className="section_header">ФИЛЬМ МЕНЕДЖЕР</h1>
-					{this.state.renderMode === displayMode.list ? (
-						<Button onClick={() => this.changeRenderMode("add")} mode="add">
-							Добавление
-						</Button>
-					) : (
-						<Button onClick={() => this.changeRenderMode("list")} mode="edit">
+			<div>
+				<Preloader />
+			</div>
+		);
+	}
+	if (error) {
+		return (
+			<div
+				className={clsns({
+					error: true,
+					error__active: error,
+				})}
+			>
+				{error}
+			</div>
+		);
+	}
+	return (
+		<>
+			<div className="App">
+				<h1 className="section_header">ФИЛЬМ МЕНЕДЖЕР</h1>
+				{renderMode === displayMode.list ? (
+					<Button onClick={() => changeRenderMode("add")} mode="add">
+						Добавление
+					</Button>
+				) : (
+						<Button onClick={() => changeRenderMode("list")} mode="edit">
 							К списку
 						</Button>
 					)}
-					{this.state.renderMode === displayMode.list && (
-						<FilmListPage
-							tableHeader={tableHeader}
-							films={this.state.films}
-							setFilmOnEdit={this.setFilmOnEdit}
-							deleteFilm={this.deleteFilm}
-							setError={this.setError}
-						/>
-					)}
+				{renderMode === displayMode.list && (
+					<FilmListPage
+						tableHeader={tableHeader}
+						films={films}
+						setFilmOnEdit={selectFilmOnEdit}
+						deleteFilm={deleteFilm}
+						setError={setNewError}
+					/>
+				)}
 
-					{this.state.renderMode === displayMode.add && (
-						<FilmFormPage
-							serverRequest={serverAPI.addFilms}
-							filmOnEdit={this.state.filmOnEdit}
-							changeParrentState={this.addFilm}
-							setError={this.setError}
-							onAdd={this.onAdd}
-						/>
-					)}
+				{renderMode === displayMode.add && (
+					<FilmFormPage
+						serverRequest={serverAPI.addFilms}
+						filmOnEdit={filmOnEdit}
+						changeParrentState={addFilm}
+						setError={setNewError}
+						onAdd={onAdd}
+					/>
+				)}
 
-					{this.state.renderMode === displayMode.edit && (
-						<FilmFormPage
-							{...this.state.films.find(
-								(film) => film.id === this.state.filmOnEdit
-							)}
-							filmOnEdit={this.state.filmOnEdit}
-							serverRequest={serverAPI.editFilm}
-							changeParrentState={this.editFilm}
-							onAdd={this.onAdd}
-						/>
-					)}
-				</div>
-			</>
-		);
-	}
+				{renderMode === displayMode.edit && (
+					<FilmFormPage
+						{...films.find(
+							(film) => film.id === filmOnEdit
+						)}
+						filmOnEdit={filmOnEdit}
+						serverRequest={serverAPI.editFilm}
+						changeParrentState={editFilm}
+						onAdd={onAdd}
+					/>
+				)}
+			</div>
+		</>
+	);
 }
+
 
 export default App;
