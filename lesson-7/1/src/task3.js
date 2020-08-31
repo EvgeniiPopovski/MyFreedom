@@ -45,7 +45,15 @@ const languages = ["EN", "DE", "RU"];
   Если перевода нет, как, например, для Clear на немецком, должна показываться
   оригинальная строка на английском.
 */
-const LocalizedText = ({ children }) => children;
+const LocalizedText = ({ children }) => {
+  return (
+    <>
+      <LanguageContext.Consumer>
+        {language => <span>{language[children] || children}</span>}
+      </LanguageContext.Consumer>
+    </>
+  )
+};
 
 LocalizedText.propTypes = {
   children: PropTypes.string.isRequired
@@ -69,21 +77,15 @@ class UserForm extends React.Component {
         </Form.Group>
         <Form.Group>
           <Button variant="primary">
-            <LanguageContext.Consumer>
-              {language => <LocalizedText>{language['Save']}</LocalizedText>}
-            </LanguageContext.Consumer>
+            <LocalizedText>Save</LocalizedText>
           </Button>
           <Button variant="danger">
-            <LanguageContext.Consumer>
-              {language => <LocalizedText>{language['Cancel']}</LocalizedText>}
-            </LanguageContext.Consumer>
+            <LocalizedText>Cancel</LocalizedText>
           </Button>
           <Button variant="warning">
-            <LanguageContext.Consumer>
-              {language => <LocalizedText>{language['Clear'] || 'Clear'}</LocalizedText>}
-            </LanguageContext.Consumer>
+            <LocalizedText>Clear</LocalizedText>
           </Button>
-          
+
         </Form.Group>
       </Form>
     );
