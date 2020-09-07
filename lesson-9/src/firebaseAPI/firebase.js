@@ -22,41 +22,46 @@ export let docToObject = (doc) => {
     };
 };
 
-export const getFirebaseData = (collectionName, setState) => {
+export const getFirebaseData = (collectionName, setState , setError) => {
     fireDB
         .collection(collectionName)
         .get()
-        .then((collection) => setState(collection.docs.map(docToObject)));
+        .then((collection) => setState(collection.docs.map(docToObject)))
+        .catch((e)=> setError(`Error Occuired : ${e.message}`))
 };
 
-export const deleteItems = (itemId, collectionName, setState, state) => {
+export const deleteItems = (itemId, collectionName, setState, state , setError) => {
     fireDB
         .collection(collectionName)
         .doc(itemId)
         .delete()
-        .then(setState(state.filter((item) => itemId !== item.id)));
+        .then(setState(state.filter((item) => itemId !== item.id)))
+        .catch((e) => setError(`Error Occuired : ${e.message}`))
 };
 
-export const addItems = (objWithNewData, category, setState, state) => {
+export const addItems = (objWithNewData, category, setState, state , setError) => {
     fireDB
         .collection(category)
         .add({
             ...objWithNewData
         })
-        .then((docRef) => setState([...state, { id: docRef.id, ...objWithNewData }]));
+        .then((docRef) => setState([...state, { id: docRef.id, ...objWithNewData }]))
+        .catch((e) => setError(`Error Occuired : ${e.message}`))
 };
 
-export const editItems = (newDataObj, collectionName, docId, setState, state) => {
+export const editItems = (newDataObj, collectionName, docId, setState, state , setError) => {
     fireDB.collection(collectionName).doc(docId).update({
         ...newDataObj
-    });
+    })
+    .catch((e) => setError(`Error Occuired : ${e.message}`))
     let obj = state.find((item) => docId === item.id);
     let index = state.indexOf(obj);
     setState([
         ...state.slice(0, index),
         { id: docId, ...newDataObj},
         ...state.slice(index + 1),
-    ]);
+    ])
+    
 };
 
 
