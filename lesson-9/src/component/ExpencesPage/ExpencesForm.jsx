@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
-import { Button } from '../common/Button/Button';
+import React, { useState, useEffect } from "react";
+import { Button } from "../common/Button/Button";
 
-const ExpencesForm = ({categories}) => {
-    const [nameValue , setNameValue] = useState('');
-    const [sumValue , setSumValue] = useState(0);
-    const [collectionId , setColectionId] = useState('');
+const ExpencesForm = ({ categories, btnFunction, initialSelectValue , initialNameValue , initialSumValue , expenceId , setEditMode}) => {
+	const [nameValue, setNameValue] = useState(initialNameValue);
+	const [sumValue, setSumValue] = useState(initialSumValue);
+	const [categoryId, setCategoryId] = useState("");
 
-    console.log(categories)
-    
-    
+	useEffect(() => {
+		setCategoryId(initialSelectValue);
+	}, [initialSelectValue]);
+
 	return (
 		<div className="form__container">
 			<form
@@ -25,13 +26,33 @@ const ExpencesForm = ({categories}) => {
 				<input
 					type="number"
 					value={sumValue}
-					onChange={(e) => setSumValue((Number(e.target.value)))}
-                />
-                <select value={collectionId} >
-                    {categories.map( category => <option key={category.id} value={category.id}> {category.name} </option>)}
-                </select>
-                
-				<Button type="Save">
+					onChange={(e) => setSumValue(Number(e.target.value))}
+				/>
+				<select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+					{categories.map((category) => (
+						<option key={category.id} value={category.id}>
+							{category.name}
+						</option>
+					))}
+				</select>
+				
+				
+				<Button
+					type="Save"
+					onClick={() =>{
+						if(expenceId) {
+							btnFunction(expenceId , { name: nameValue, sum: sumValue, categoryId: categoryId })
+							setEditMode(false)
+						} else {
+							btnFunction({ name: nameValue, sum: sumValue, categoryId: categoryId })
+						}
+						setNameValue('')
+						setSumValue('')
+						setCategoryId(initialSelectValue)
+					}
+					
+					}
+				>
 					Save
 				</Button>
 			</form>
@@ -39,5 +60,4 @@ const ExpencesForm = ({categories}) => {
 	);
 };
 
-
-export {ExpencesForm}
+export { ExpencesForm };

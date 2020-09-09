@@ -25,7 +25,6 @@ const CategoryPage = ({categories , deleteCategory , editCategory , addCategory}
 						editCategory={editCategory}
 					/>
 				))}
-				<li>* DoubleClick to edit itemes</li>
 			</ul>
 			<CategoryForm buttonFunc={addCategory} value='' />
 		</>

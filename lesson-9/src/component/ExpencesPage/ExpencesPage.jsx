@@ -7,7 +7,6 @@ import {
 	editItems,
 	docToObject,
 } from "../../firebaseAPI/firebase";
-import { InputForm } from "../common/InputForm";
 import { NavBar } from "../common/NavBar";
 import { Preloader } from "../common/Preloader/Preloader";
 import "./../CategoryPage/CategoryPage.css";
@@ -49,7 +48,7 @@ const ExpencesPage = ({ categories }) => {
 
 	const editExpences = async (expenceId, newData) => {
 		try {
-			editItems(newData, "categories", expenceId);
+			editItems(newData, "expences", expenceId);
 			let obj = expences.find((item) => expenceId === item.id);
 			let index = expences.indexOf(obj);
 			setExpences([
@@ -91,17 +90,15 @@ const ExpencesPage = ({ categories }) => {
 								categories={categories}
 							/>
 						))}
-						<li>* DoubleClick to edit itemes</li>
 					</ul>
-						
 
-					<ExpencesForm  categories={categories}/>
-					{/* <InputForm
-						addField={addExpences}
-						render2Inputs={true}
-						formName="Add Expences"
+					<ExpencesForm
+						btnFunction={addExpences}
 						categories={categories}
-					/> */}
+						initialSelectValue={categories[0].id}
+						initialSumValue={""}
+						initialNameValue={""}
+					/>
 				</div>
 			)}
 		</>
