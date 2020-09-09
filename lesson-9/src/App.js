@@ -9,26 +9,56 @@ import {
 	deleteItems,
 	addItems,
 	editItems,
+	docToObject,
 } from "./firebaseAPI/firebase";
 
 function App() {
 	const [categories, setCategories] = useState(null);
-	const [error , setError] = useState('')
+	const [error, setError] = useState("");
 
 	useEffect(() => {
-		getFirebaseData("categories", setCategories);
+		const getCategories = async () => {
+			try {
+				let collection = await getFirebaseData("categories");
+				setCategories(collection.docs.map(docToObject));
+			} catch (e) {
+				setError(`Error: ${e.message} `);
+			}
+		};
+		getCategories();
 	}, []);
 
-	const deleteCategory = (categoryId) => {
-		return deleteItems(categoryId, "categories", setCategories, categories , setError);
+	const deleteCategory = async (categoryId) => {
+		try {
+			deleteItems(categoryId, "categories");
+			setCategories(categories.filter((item) => categoryId !== item.id));
+		} catch (e) {
+			setError(`Error: ${e.message} `);
+		}
 	};
 
-	const addCategory = (newDataObj) => {
-		return addItems(newDataObj, "categories", setCategories, categories , setError);
+	const addCategory = async (newDataObj) => {
+		try {
+			let response = await addItems(newDataObj, "categories");
+			setCategories([...categories, { id: response.id, ...newDataObj }]);
+		} catch (e) {
+			setError(`Error: ${e.message} `);
+		}
 	};
 
-	const editCategory = (categoryId, newData) => {
-		return editItems(newData, "categories", categoryId, setCategories, categories, setError);
+	const editCategory = async (categoryId, newData) => {
+		try {
+			editItems(newData, "categories", categoryId);
+			let obj = categories.find((item) => categoryId === item.id);
+			let index = categories.indexOf(obj);
+			setCategories([
+				...categories.slice(0, index),
+				{ id: categoryId, ...newData },
+				...categories.slice(index + 1),
+			]);
+		} catch (e) {
+			setError(`Error: ${e.message} `);
+		}
 	};
 
 	if (error) {
@@ -40,27 +70,27 @@ function App() {
 	}
 	return (
 		<BrowserRouter>
-			<div className='app__container'>
-        <div className='app__wrapper'>
-				<Switch>
-					<Route path="/categories">
-						<CategoryPage
-							categories={categories}
-							deleteCategory={deleteCategory}
-							addCategory={addCategory}
-							editCategory={editCategory}
-						/>
-					</Route>
+			<div className="app__container">
+				<div className="app__wrapper">
+					<Switch>
+						<Route path="/categories">
+							<CategoryPage
+								categories={categories}
+								deleteCategory={deleteCategory}
+								addCategory={addCategory}
+								editCategory={editCategory}
+							/>
+						</Route>
 
-					<Route path="/expences">
-						<ExpencesPage categories={categories} />
-					</Route>
+						<Route path="/expences">
+							<ExpencesPage categories={categories} />
+						</Route>
 
-					<Route path="/">
-						<HomePage />
-					</Route>
-				</Switch>
-        </div>
+						<Route path="/">
+							<HomePage />
+						</Route>
+					</Switch>
+				</div>
 			</div>
 		</BrowserRouter>
 	);

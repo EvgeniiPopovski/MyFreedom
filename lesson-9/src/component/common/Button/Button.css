@@ -13,6 +13,11 @@ button {
 .save {
     background-color: rgb(103, 252, 103);
 }
+.edit {
+    background-color: rgb(253, 125, 5);
+}
 .save:disabled {
     background-color: lightgrey;
 }
+
+

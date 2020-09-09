@@ -22,46 +22,32 @@ export let docToObject = (doc) => {
     };
 };
 
-export const getFirebaseData = (collectionName, setState , setError) => {
-    fireDB
-        .collection(collectionName)
-        .get()
-        .then((collection) => setState(collection.docs.map(docToObject)))
-        .catch((e)=> setError(`Error Occuired : ${e.message}`))
+export const getFirebaseData = async (collectionName) => {
+    let response = await fireDB.collection(collectionName)
+    let collection = await response.get()
+    return collection
 };
 
-export const deleteItems = (itemId, collectionName, setState, state , setError) => {
-    fireDB
-        .collection(collectionName)
-        .doc(itemId)
-        .delete()
-        .then(setState(state.filter((item) => itemId !== item.id)))
-        .catch((e) => setError(`Error Occuired : ${e.message}`))
+export const deleteItems = async (itemId, collectionName) => {
+    let response =  fireDB.collection(collectionName)
+    let doc =  response.doc(itemId)
+    await doc.delete()
 };
 
-export const addItems = (objWithNewData, category, setState, state , setError) => {
-    fireDB
-        .collection(category)
-        .add({
+export const addItems = async  (objWithNewData, category) => {
+    let response =  fireDB.collection(category)
+    let ref =  await response.add({
             ...objWithNewData
         })
-        .then((docRef) => setState([...state, { id: docRef.id, ...objWithNewData }]))
-        .catch((e) => setError(`Error Occuired : ${e.message}`))
+        return ref
 };
 
-export const editItems = (newDataObj, collectionName, docId, setState, state , setError) => {
-    fireDB.collection(collectionName).doc(docId).update({
+export const editItems = async (newDataObj, collectionName, docId) => {
+    let collection = await fireDB.collection(collectionName)
+    let doc = await collection.doc(docId)
+    await doc.update({
         ...newDataObj
     })
-    .catch((e) => setError(`Error Occuired : ${e.message}`))
-    let obj = state.find((item) => docId === item.id);
-    let index = state.indexOf(obj);
-    setState([
-        ...state.slice(0, index),
-        { id: docId, ...newDataObj},
-        ...state.slice(index + 1),
-    ])
-    
 };
 
 

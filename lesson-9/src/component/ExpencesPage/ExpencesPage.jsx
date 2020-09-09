@@ -5,32 +5,62 @@ import {
 	deleteItems,
 	addItems,
 	editItems,
+	docToObject,
 } from "../../firebaseAPI/firebase";
 import { InputForm } from "../common/InputForm";
 import { NavBar } from "../common/NavBar";
 import { Preloader } from "../common/Preloader/Preloader";
 import "./../CategoryPage/CategoryPage.css";
+import { ExpencesForm } from "./ExpencesForm";
 
 const ExpencesPage = ({ categories }) => {
 	const [expences, setExpences] = useState(null);
 	const [error, setError] = useState("");
 
 	useEffect(() => {
-		getFirebaseData("expences", setExpences);
+		const getExpences = async () => {
+			try {
+				let collection = await getFirebaseData("expences");
+				setExpences(collection.docs.map(docToObject));
+			} catch (e) {
+				setError(`Error : ${e.message}`);
+			}
+		};
+		getExpences();
 	}, []);
 
-	const deleteExpences = (expenceId) => {
-		return deleteItems(expenceId, "expences", setExpences, expences, setError);
+	const deleteExpences = async (expenceId) => {
+		try {
+			deleteItems(expenceId, "expences");
+			setExpences(expences.filter((item) => expenceId !== item.id));
+		} catch (e) {
+			setError(`Error : ${e.message}`);
+		}
 	};
 
-	const addExpences = (newDataObj) => {
-		return addItems(newDataObj, "expences", setExpences, expences, setError);
+	const addExpences = async (newDataObj) => {
+		try {
+			let response = await addItems(newDataObj, "expences");
+			setExpences([...expences, { id: response.id, ...newDataObj }]);
+		} catch (e) {
+			setError(`Error: ${e.message} `);
+		}
 	};
 
-	const editExpences = (expenceId, newData) => {
-		return editItems(newData, "expences", expenceId, setExpences, expences, setError);
+	const editExpences = async (expenceId, newData) => {
+		try {
+			editItems(newData, "categories", expenceId);
+			let obj = expences.find((item) => expenceId === item.id);
+			let index = expences.indexOf(obj);
+			setExpences([
+				...expences.slice(0, index),
+				{ id: expenceId, ...newData },
+				...expences.slice(index + 1),
+			]);
+		} catch (e) {
+			setError(`Error: ${e.message} `);
+		}
 	};
-
 	if (!expences || !categories) {
 		return <Preloader />;
 	}
@@ -51,7 +81,6 @@ const ExpencesPage = ({ categories }) => {
 				<p className="notation">You should fill in Categories first</p>
 			) : (
 				<div>
-					{console.log(categories.length)}
 					<ul className="list__container">
 						{expences.map((expence) => (
 							<ExpencesItem
@@ -60,18 +89,19 @@ const ExpencesPage = ({ categories }) => {
 								deleteExpences={deleteExpences}
 								editExpences={editExpences}
 								categories={categories}
-								expenceCategory={expence.category}
 							/>
 						))}
 						<li>* DoubleClick to edit itemes</li>
 					</ul>
+						
 
-					<InputForm
+					<ExpencesForm  categories={categories}/>
+					{/* <InputForm
 						addField={addExpences}
 						render2Inputs={true}
 						formName="Add Expences"
 						categories={categories}
-					/>
+					/> */}
 				</div>
 			)}
 		</>

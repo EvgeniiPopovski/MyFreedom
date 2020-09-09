@@ -1,9 +1,10 @@
 import React from 'react'
 import { CathegoryItem } from "./CathegoryItem";
-import { InputForm } from "../common/InputForm";
+
 import { NavBar } from '../common/NavBar';
 import { Preloader } from '../common/Preloader/Preloader';
 import './CategoryPage.css'
+import { CategoryForm } from './CategoryForm';
 
 const CategoryPage = ({categories , deleteCategory , editCategory , addCategory}) => {
 
@@ -26,7 +27,7 @@ const CategoryPage = ({categories , deleteCategory , editCategory , addCategory}
 				))}
 				<li>* DoubleClick to edit itemes</li>
 			</ul>
-			<InputForm addField={addCategory} render2Inputs={false} formName='Add Category' categories={categories}/>
+			<CategoryForm buttonFunc={addCategory} value='' />
 		</>
 	);
 };
