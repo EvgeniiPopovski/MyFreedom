@@ -5,7 +5,7 @@ import { Button } from "./Button/Button";
 const InputForm = ({ addField, render2Inputs, formName, categories }) => {
 	const [data, setData] = useState({ name: "", sum: "", category: "" });
 	const [renderForm, setRenderForm] = useState(false);
-
+	console.log(data)
 	useEffect(() => {
 		if (categories.length) {
 			setData({ ...data, category: categories[0].name });
@@ -43,7 +43,6 @@ const InputForm = ({ addField, render2Inputs, formName, categories }) => {
 					<>
 						<input
 							autoFocus
-							min={0}
 							type="text"
 							value={data.sum}
 							onChange={(event) => {
@@ -66,7 +65,7 @@ const InputForm = ({ addField, render2Inputs, formName, categories }) => {
 				)}
 				<Button
 					type="Save"
-					disabled={!data.name}
+					disabled={!data.name ||  !data.sum}
 					onClick={() => {
 						render2Inputs ? addField(data) : addField({ name: data.name });
 						setData({ name: "", sum: "" });
