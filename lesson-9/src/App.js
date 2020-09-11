@@ -11,6 +11,8 @@ import {
 	editItems,
 	docToObject,
 } from "./firebaseAPI/firebase";
+import { LoginForm } from "./component/LoginForm/LoginForm";
+import { RegistrationForm } from "./component/RegistrationForm/RegistrationForm";
 
 function App() {
 	const [categories, setCategories] = useState(null);
@@ -85,6 +87,11 @@ function App() {
 						<Route path="/expences">
 							<ExpencesPage categories={categories} />
 						</Route>
+
+						<Route path="/login">
+							<LoginForm />
+							<RegistrationForm />
+						</Route> 
 
 						<Route path="/">
 							<HomePage />

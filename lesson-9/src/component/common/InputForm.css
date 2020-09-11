@@ -1,9 +1,0 @@
-.form__container {
-	display: flex;
-	justify-content: center;
-}
-
-.close__btn {
-	cursor: pointer;
-	font-size: 13px;
-}

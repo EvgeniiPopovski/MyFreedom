@@ -15,6 +15,8 @@ firebase.initializeApp(firebaseConfig)
 
 const fireDB = firebase.firestore()
 
+export const firebaseAuth = firebase.auth()
+
 export let docToObject = (doc) => {
     return {
         id: doc.id,
