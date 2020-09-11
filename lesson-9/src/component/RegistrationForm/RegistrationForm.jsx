@@ -1,15 +1,25 @@
 import React, { useState } from "react";
 import { Button } from "../common/Button/Button";
-import { firebaseAuth } from "../../firebaseAPI/firebase";
+import { useUserContext } from "../context/UserContext";
 
 /// сделать вывод ошибок, при неправильно введенныз данных
 
 const RegistrationForm = () => {
+
+	const {registration} = useUserContext()
+	const {error} = useUserContext()
+
 	const [email, setEmail] = useState("");
 	const [pass, setPass] = useState("");
 	const [passVerification, setPassVerification] = useState("");
 
-	const [error, setError] = useState("");
+	const [errorRegstr, setErrorRegstr] = useState(error);
+
+	
+
+	if (error){
+		return <div>{errorRegstr}</div>
+	}
 
 	return (
 		<>
@@ -47,15 +57,14 @@ const RegistrationForm = () => {
 					<Button
 						type="Save"
 						disabled={!email || !pass || !passVerification}
-						onClick={async  () => {
+						onClick={() => {
 							if (pass !== passVerification) {
-								setError('passwords doesn"t match each other ')
+								setErrorRegstr('Passwords doesn"t match each other ')
 							} else {
                                 try {
-                                    let response = await firebaseAuth.createUserWithEmailAndPassword(email, pass);
-                                    console.log(response)
+                                    registration(email, pass);
                                 } catch (e) {
-                                    setError(`Error oquired : ${e.message}`)
+                                    setErrorRegstr(`Error oquired : ${e.message}`)
                                 }
                             }
 						}}

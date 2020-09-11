@@ -19,8 +19,7 @@ const ExpencesItem = ({ expence, deleteExpences, editExpences, categories }) => 
 					/>
 				) : (
 					<p>
-						Наименование {expence.name} , Стоимость {expence.sum} , категория  
-						{categories.find((category) => category.id === expence.categoryId)?.name || "Категория была удалена"}
+						Наименование {expence.name} , Стоимость {expence.sum} , категория {categories.find((category) => category.id === expence.categoryId)?.name || "Категория была удалена"}
 					</p>
 				)}
 				{editMode ? (

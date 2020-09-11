@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../common/Button/Button";
 
-const ExpencesForm = ({ categories, btnFunction, initialSelectValue , initialNameValue , initialSumValue , expenceId , setEditMode}) => {
+const ExpencesForm = ({ categories, btnFunction, initialSelectValue , initialNameValue , initialSumValue , expenceId , setEditMode , userId}) => {
 	const [nameValue, setNameValue] = useState(initialNameValue);
 	const [sumValue, setSumValue] = useState(initialSumValue);
-	const [categoryId, setCategoryId] = useState("");
+	const [categoryId, setCategoryId] = useState('');
 
 	useEffect(() => {
 		setCategoryId(initialSelectValue);
@@ -44,7 +44,7 @@ const ExpencesForm = ({ categories, btnFunction, initialSelectValue , initialNam
 							btnFunction(expenceId , { name: nameValue, sum: sumValue, categoryId: categoryId })
 							setEditMode(false)
 						} else {
-							btnFunction({ name: nameValue, sum: sumValue, categoryId: categoryId })
+							btnFunction({ name: nameValue, sum: sumValue, categoryId: categoryId , userId})
 						}
 						setNameValue('')
 						setSumValue('')

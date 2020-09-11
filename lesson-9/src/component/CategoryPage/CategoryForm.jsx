@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "../common/Button/Button";
 
-const CategoryForm = ({value ,  buttonFunc , documentId , setEditMode}) => {
+const CategoryForm = ({value ,  buttonFunc , documentId , setEditMode , userId}) => {
 	const [inputValue, setInputValue] = useState( value || '');
 
 	return (
@@ -27,7 +27,7 @@ const CategoryForm = ({value ,  buttonFunc , documentId , setEditMode}) => {
 							buttonFunc( documentId , { name: inputValue })
 							setEditMode(false)
                         } else {
-							buttonFunc({ name: inputValue });
+							buttonFunc({ name: inputValue , userId });
 						}
 						
 						setInputValue("");

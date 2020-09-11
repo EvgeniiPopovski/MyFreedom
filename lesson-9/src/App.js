@@ -11,8 +11,8 @@ import {
 	editItems,
 	docToObject,
 } from "./firebaseAPI/firebase";
-import { LoginForm } from "./component/LoginForm/LoginForm";
-import { RegistrationForm } from "./component/RegistrationForm/RegistrationForm";
+import { onRegister, UserProvider } from "./component/context/UserContext";
+import { ProtectedRoute } from "./component/common/ProptectedRoute/ProtectedRoute";
 
 function App() {
 	const [categories, setCategories] = useState(null);
@@ -72,33 +72,32 @@ function App() {
 	}
 	return (
 		<BrowserRouter>
-			<div className="app__container">
-				<div className="app__wrapper">
-					<Switch>
-						<Route path="/categories">
-							<CategoryPage
-								categories={categories}
-								deleteCategory={deleteCategory}
-								addCategory={addCategory}
-								editCategory={editCategory}
-							/>
-						</Route>
+			<UserProvider value={onRegister}>
+				{() => (
+					<div className="app__container">
+						<div className="app__wrapper">
+							<Switch>
+								<ProtectedRoute path="/categories">
+									<CategoryPage
+										categories={categories}
+										deleteCategory={deleteCategory}
+										addCategory={addCategory}
+										editCategory={editCategory}
+									/>
+								</ProtectedRoute>
 
-						<Route path="/expences">
-							<ExpencesPage categories={categories} />
-						</Route>
+								<ProtectedRoute path="/expences">
+									<ExpencesPage categories={categories} />
+								</ProtectedRoute>
 
-						<Route path="/login">
-							<LoginForm />
-							<RegistrationForm />
-						</Route> 
-
-						<Route path="/">
-							<HomePage />
-						</Route>
-					</Switch>
-				</div>
-			</div>
+								<Route path="/">
+									<HomePage />
+								</Route>
+							</Switch>
+						</div>
+					</div>
+				)}
+			</UserProvider>
 		</BrowserRouter>
 	);
 }

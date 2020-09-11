@@ -11,10 +11,14 @@ import { NavBar } from "../common/NavBar";
 import { Preloader } from "../common/Preloader/Preloader";
 import "./../CategoryPage/CategoryPage.css";
 import { ExpencesForm } from "./ExpencesForm";
+import { NavLink } from "react-router-dom";
+import { useUserContext } from "../context/UserContext";
 
 const ExpencesPage = ({ categories }) => {
 	const [expences, setExpences] = useState(null);
 	const [error, setError] = useState("");
+
+	const {user} = useUserContext()
 
 	useEffect(() => {
 		const getExpences = async () => {
@@ -74,7 +78,19 @@ const ExpencesPage = ({ categories }) => {
 	return (
 		<>
 			<h1>Expences</h1>
-			<NavBar />
+			<NavBar>
+				<NavLink className="navBar__item navBar__link" to="/categories">
+					to Categories
+				</NavLink>
+
+				<NavLink className="navBar__item navBar__link" to="/expences">
+					to Expences
+				</NavLink>
+
+				<NavLink exact className="navBar__item navBar__link" to="/">
+					Home
+				</NavLink>
+			</NavBar>
 
 			{!categories.length && !expences.length ? (
 				<p className="notation">You should fill in Categories first</p>
@@ -98,6 +114,7 @@ const ExpencesPage = ({ categories }) => {
 						initialSelectValue={categories[0].id}
 						initialSumValue={""}
 						initialNameValue={""}
+						userId = {user.id}
 					/>
 				</div>
 			)}
