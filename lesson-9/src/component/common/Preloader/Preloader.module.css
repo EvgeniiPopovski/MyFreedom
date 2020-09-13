@@ -3,9 +3,6 @@
 #cubeLoader {
   align-items: center;
   display: flex;
-  height: 100%;
-  width: 100%;
-  position: fixed;
 }
 #cubeLoader .caption {
   margin: 0 auto;

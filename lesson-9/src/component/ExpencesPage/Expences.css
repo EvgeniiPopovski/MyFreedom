@@ -1,0 +1,28 @@
+.notation { 
+    text-decoration: underline;
+    text-align: center;
+    font-weight: bold;
+}
+
+.expences {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.expence__item {
+    color: white;
+    font-weight: bold;
+}
+
+.expence__item .expence__label {
+    font-weight: normal;
+}
+
+.expences_form{
+    flex-direction: column;
+    width: 75%;
+}
+
+.form__title{
+    text-align: center;
+}

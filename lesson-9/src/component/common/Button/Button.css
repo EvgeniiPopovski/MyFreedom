@@ -1,8 +1,15 @@
-button {
-    padding: 4px;
+.button {
+    padding: 5px 0 ;
+    width: 70px;
     color: black;
     border: none;
+    font-weight: bolder;
     border-radius: 4px;
+    margin: 0 5px;
+    opacity: 0.5;
+}
+.button:hover{
+    opacity : 1;
 }
 .delete {
     background-color: rgb(247, 75, 75);
@@ -14,7 +21,7 @@ button {
     background-color: rgb(103, 252, 103);
 }
 .edit {
-    background-color: rgb(253, 125, 5);
+    background-color: rgb(253, 154, 5);
 }
 .save:disabled {
     background-color: lightgrey;

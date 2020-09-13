@@ -5,36 +5,26 @@ import { Preloader } from "../common/Preloader/Preloader";
 const UserContext = React.createContext();
 
 export const onRegister = async (email, pass) => {
-	let resonse = await firebaseAuth.createUserWithEmailAndPassword(email, pass);
-	console.log(resonse);
+	await firebaseAuth.createUserWithEmailAndPassword(email, pass);
 };
 
 const UserProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
-	const [error, setError] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		try {
-			firebaseAuth.onAuthStateChanged((user) => {
-				if (user) {
-					setUser({ email: user.email , displayName : user.displayName , id : user.uid });
-				}
-				setIsLoading(false);
-			});
-		} catch (e) {
-			setError(`Error : ${e.message}`);
-		}
+		firebaseAuth.onAuthStateChanged((user) => {
+			if (user) {
+				setUser({ email: user.email, displayName: user.displayName, id: user.uid });
+			}
+			setIsLoading(false);
+		});
+
 		return () => firebaseAuth.onAuthStateChanged();
 	}, []);
 
 	const registration = async (email, pass) => {
-        try {
-            await firebaseAuth.createUserWithEmailAndPassword(email, pass);
-        }catch (e) {
-            return setError(`Error : ${e.message}`)
-        }
-		
+		await firebaseAuth.createUserWithEmailAndPassword(email, pass);
 	};
 
 	const login = async (email, pass) => {
@@ -42,21 +32,17 @@ const UserProvider = ({ children }) => {
 	};
 
 	const logout = async () => {
-        setUser(null)
-        await firebaseAuth.signOut();
+		setUser(null);
+		await firebaseAuth.signOut();
 	};
 
 	const updateUser = async ({ updates }) => {
-        setUser({ ...user, ...updates });
-        await user.updateProfile(updates);
-		
+		setUser({ ...user, ...updates });
+		await user.updateProfile(updates);
 	};
 
 	if (isLoading) {
 		return <Preloader />;
-	}
-	if (error) {
-		return <div>{error}</div>;
 	}
 
 	return (
@@ -66,8 +52,7 @@ const UserProvider = ({ children }) => {
 				login: login,
 				registration: registration,
 				logout: logout,
-                updateUser: updateUser,
-                error : error
+				updateUser: updateUser,
 			}}
 		>
 			{children({
@@ -75,8 +60,7 @@ const UserProvider = ({ children }) => {
 				login: login,
 				registration: registration,
 				logout: logout,
-                updateUser: updateUser,
-                error : error
+				updateUser: updateUser,
 			})}
 		</UserContext.Provider>
 	);

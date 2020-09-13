@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { Button } from "../common/Button/Button";
+import './Category.css'
 
-const CategoryForm = ({value ,  buttonFunc , documentId , setEditMode , userId}) => {
+const CategoryForm = ({value ,  buttonFunc , documentId , setEditMode , userId  }) => {
 	const [inputValue, setInputValue] = useState( value || '');
 
 	return (
-		<div className="form__container">
+		
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
 				}}
 			>
-				<p>Add Categories</p>
 				<input
+					className='form__input'
 					type="text"
 					value={inputValue}
 					onChange={(e) => setInputValue(e.target.value)}
@@ -36,7 +37,6 @@ const CategoryForm = ({value ,  buttonFunc , documentId , setEditMode , userId})
 					Save
 				</Button>
 			</form>
-		</div>
 	);
 };
 

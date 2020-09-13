@@ -1,46 +1,29 @@
 import React from "react";
 import { CathegoryItem } from "./CathegoryItem";
-
-import { NavBar } from "../common/NavBar";
 import { Preloader } from "../common/Preloader/Preloader";
-import "./CategoryPage.css";
 import { CategoryForm } from "./CategoryForm";
-import { NavLink } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
+import { Header } from "../common/Header/Header";
+import "./Category.css";
 
 const CategoryPage = ({ categories, deleteCategory, editCategory, addCategory }) => {
 	const { user } = useUserContext();
-	const {logout} = useUserContext()
+	const { logout } = useUserContext();
 
 	if (!categories) {
-		return <Preloader />;
+		return (
+			<>
+				<Header user={user} logout={logout} />
+				<Preloader />
+				<CategoryForm buttonFunc={addCategory} value="" userId={user.id} />
+			</>
+		);
 	}
-
-	
 
 	return (
 		<>
-			<header>
-				<h1>Categories</h1>
-				{user ? <label> You entered, as  {user?.displayName || user.email} <button onClick={() => logout()}> Logout </button></label> : null }
-				
-			</header>
-
-			<NavBar>
-				<NavLink className="navBar__item navBar__link" to="/categories">
-					to Categories
-				</NavLink>
-
-				<NavLink className="navBar__item navBar__link" to="/expences">
-					to Expences
-				</NavLink>
-
-				<NavLink exact className="navBar__item navBar__link" to="/">
-					Home
-				</NavLink>
-			</NavBar>
-
-			<ul className="list__container">
+			<Header user={user} logout={logout} pageName="Categories" />
+			<ul className="categories">
 				{categories.map((category) => (
 					<CathegoryItem
 						category={category}
@@ -50,7 +33,12 @@ const CategoryPage = ({ categories, deleteCategory, editCategory, addCategory })
 					/>
 				))}
 			</ul>
-			<CategoryForm buttonFunc={addCategory} value="" userId={user.id} />
+			<section className="container">
+				<div className='form'>
+					<h3 className="fornm__title">Add Category</h3>
+					<CategoryForm buttonFunc={addCategory} value="" userId={user.id} />
+				</div>
+			</section>
 		</>
 	);
 };

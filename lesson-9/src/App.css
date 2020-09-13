@@ -42,11 +42,18 @@
   width: 100vw;
   display: flex;
   justify-content: center;
-  background-color: lightblue;
+  background-color: #eae5e5;
 }
 
 .app__wrapper{
   height: 100%;
   width: 920px;
-  background-color:white
+  background-color:white;
+  box-shadow: 0 0 20px #282c34;
+}
+
+.error{
+  background-color: rgba(255, 0, 0, 0.219);
+  color: black;
+  text-align: center;
 }

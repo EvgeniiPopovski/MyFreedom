@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./CategoryItem.css";
 import { Button } from "../common/Button/Button";
 import { CategoryForm } from "./CategoryForm";
 
@@ -15,13 +14,16 @@ const CathegoryItem = ({ category, deleteCategory , editCategory}) => {
 		<>
 			<li className="list__item">
 				{editMode ? (
-					<CategoryForm value={categoryName} buttonFunc={editCategory} documentId={category.id} setEditMode={setEditMode}/>
+					<CategoryForm value={categoryName} buttonFunc={editCategory} documentId={category.id} setEditMode={setEditMode} editmode={editMode}/>
 				) : (
-					<p className="item__name"> {category.name}</p>
+					<p className="list__name"> {category.name}</p>
 				)}
-				<Button type="Edit" onClick={() => setEditMode(true)}>
+				{editMode ?  <Button type="Edit" onClick={() => setEditMode(false)}>
+					Cancel
+				</Button> : <Button type="Edit" onClick={() => setEditMode(true)}>
 					Edit
-				</Button>
+				</Button> }
+				
 				<Button type="Delete" onClick={() => deleteCategory(category.id)}>
 					Delete
 				</Button>

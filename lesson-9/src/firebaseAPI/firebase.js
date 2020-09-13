@@ -24,8 +24,9 @@ export let docToObject = (doc) => {
     };
 };
 
-export const getFirebaseData = async (collectionName) => {
+export const getFirebaseData = async (collectionName , userId) => {
     let response = await fireDB.collection(collectionName)
+    .where('userId' , '==' , userId)
     let collection = await response.get()
     return collection
 };

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Button } from "./../common/Button/Button";
 import { ExpencesForm } from "./ExpencesForm";
+import "./Expences.css";
 
-const ExpencesItem = ({ expence, deleteExpences, editExpences, categories }) => {
+const ExpencesItem = ({ expence, deleteExpences, editExpences, categories , setError }) => {
 	const [editMode, setEditMode] = useState(false);
 	return (
 		<>
-			<li className="list__item wide">
+			<li className="list__item">
 				{editMode ? (
 					<ExpencesForm
 						categories={categories}
@@ -18,8 +19,9 @@ const ExpencesItem = ({ expence, deleteExpences, editExpences, categories }) => 
 						expenceId={expence.id}
 					/>
 				) : (
-					<p>
-						Наименование {expence.name} , Стоимость {expence.sum} , категория {categories.find((category) => category.id === expence.categoryId)?.name || "Категория была удалена"}
+					<p className='expence__item'>
+						<span className='expence__label'>Name </span> {expence.name}, <span className='expence__label' >Sum</span> {expence.sum} <span>BYN</span>, <span className='expence__label'>Category</span> {categories.find((category) => category.id === expence.categoryId)?.name ||
+							"Категория была удалена"}
 					</p>
 				)}
 				{editMode ? (
@@ -31,7 +33,15 @@ const ExpencesItem = ({ expence, deleteExpences, editExpences, categories }) => 
 						Edit
 					</Button>
 				)}
-				<Button type="Delete" onClick={() => deleteExpences(expence.id)}>
+				<Button type="Delete" onClick={() => {
+					try{
+						deleteExpences(expence.id)
+					} catch (e) {
+						setError(`Error: ${e.message}`)
+					}
+					
+				}}
+					>
 					Delete
 				</Button>
 			</li>

@@ -1,36 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { ExpencesItem } from "./ExpencesItem";
 import {
-	getFirebaseData,
 	deleteItems,
 	addItems,
 	editItems,
 	docToObject,
+	getFirebaseData,
 } from "../../firebaseAPI/firebase";
-import { NavBar } from "../common/NavBar";
 import { Preloader } from "../common/Preloader/Preloader";
-import "./../CategoryPage/CategoryPage.css";
 import { ExpencesForm } from "./ExpencesForm";
-import { NavLink } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
+import { Header } from "../common/Header/Header";
+import "./Expences.css";
 
-const ExpencesPage = ({ categories }) => {
+const ExpencesPage = memo(({ categories }) => {
 	const [expences, setExpences] = useState(null);
 	const [error, setError] = useState("");
 
-	const {user} = useUserContext()
+	const { user, logout } = useUserContext();
 
 	useEffect(() => {
 		const getExpences = async () => {
 			try {
-				let collection = await getFirebaseData("expences");
+				let collection = await getFirebaseData("expences", user.id);
 				setExpences(collection.docs.map(docToObject));
 			} catch (e) {
 				setError(`Error : ${e.message}`);
 			}
 		};
 		getExpences();
-	}, []);
+	}, [user.id]);
 
 	const deleteExpences = async (expenceId) => {
 		try {
@@ -64,39 +63,33 @@ const ExpencesPage = ({ categories }) => {
 			setError(`Error: ${e.message} `);
 		}
 	};
-	if (!expences || !categories) {
-		return <Preloader />;
-	}
-	if (error) {
+
+	if (!categories || !expences) {
 		return (
-			<div>
-				<h1>Error </h1> <p>{error}</p>
-			</div>
+			<>
+				<Header user={user} logout={logout} /> <Preloader />{" "}
+			</>
 		);
 	}
+	// if (error) {
+	// 	return (
+	// 		<div>
+	// 			<h1>Error </h1> <p>{error}</p>
+	// 		</div>
+	// 	);
+	// }
 
 	return (
 		<>
-			<h1>Expences</h1>
-			<NavBar>
-				<NavLink className="navBar__item navBar__link" to="/categories">
-					to Categories
-				</NavLink>
+			<Header user={user} logout={logout} pageName="Expences" />
 
-				<NavLink className="navBar__item navBar__link" to="/expences">
-					to Expences
-				</NavLink>
-
-				<NavLink exact className="navBar__item navBar__link" to="/">
-					Home
-				</NavLink>
-			</NavBar>
+			{error && <div className="error">{error}</div>}
 
 			{!categories.length && !expences.length ? (
 				<p className="notation">You should fill in Categories first</p>
 			) : (
 				<div>
-					<ul className="list__container">
+					<ul className="expences">
 						{expences.map((expence) => (
 							<ExpencesItem
 								expence={expence}
@@ -107,19 +100,27 @@ const ExpencesPage = ({ categories }) => {
 							/>
 						))}
 					</ul>
-
-					<ExpencesForm
-						btnFunction={addExpences}
-						categories={categories}
-						initialSelectValue={categories[0].id}
-						initialSumValue={""}
-						initialNameValue={""}
-						userId = {user.id}
-					/>
+					{!categories.length ? (
+						<p className="notation">Please enter category first</p>
+					) : (
+						<section className="container">
+							<div className="form expences_form">
+								<h3 className="form__title">Add Expences</h3>
+								<ExpencesForm
+									btnFunction={addExpences}
+									categories={categories}
+									initialSelectValue={categories[0].id}
+									initialSumValue={""}
+									initialNameValue={""}
+									userId={user.id}
+								/>
+							</div>
+						</section>
+					)}
 				</div>
 			)}
 		</>
 	);
-};
+});
 
 export { ExpencesPage };
