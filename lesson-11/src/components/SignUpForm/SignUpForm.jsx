@@ -22,6 +22,7 @@ export const SignUpForm = ({ onSignUp, onCancel }) => {
         onChange={(e) => setLogin(e.target.value)}
         placeholder="Enter login"
         value={login}
+        
       />
 
       <label htmlFor="password">Password</label>
