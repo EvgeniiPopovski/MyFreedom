@@ -38,7 +38,7 @@ it('should show validation alert when pass and passConfirmation doesn"t match ',
     const onSignUp = jest.fn()
     const wrapper = mount(<SignUpForm onSignUp={onSignUp} onCancel={() => { }} />)
 
-    const buttonWrapper = wrapper.find('button').at(0)
+    const buttonWrapper = wrapper.find('button').at(1)
 
     const inputPass = wrapper.find('input[name="password"]')
     const inputPassConfirmation = wrapper.find('input[name="password-confirmation"]')
@@ -48,9 +48,9 @@ it('should show validation alert when pass and passConfirmation doesn"t match ',
 
     buttonWrapper.simulate("click")
     
-    // const alert = wrapper.exists(".sign-up-form__alert")
+    const alert = wrapper.exists(".sign-up-form__alert")
     
     
-    // expect(alert).toBe(true)
+    expect(alert).toBe(true)
     expect(onSignUp).toHaveBeenCalledTimes(0)
 })
