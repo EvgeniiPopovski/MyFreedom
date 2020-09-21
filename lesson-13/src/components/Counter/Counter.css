@@ -1,0 +1,39 @@
+.counter-item {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid black
+}
+
+.counter__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.counter__title{
+    margin: 0;
+}
+
+.counter__controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.counter__value{
+    font-size: 30px;
+    margin: 4px;
+}
+
+.counter__button {
+    height: 40px;
+    width: 80px;
+    font-size: 30px;
+    font-weight: bold;
+    background-color: transparent;
+    border: 2px solid black 
+}
+
+.counter__button:disabled {
+    border: 2px solid lightgray 
+}

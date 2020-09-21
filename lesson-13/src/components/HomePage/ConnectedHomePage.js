@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { incValueAC } from '../../redux/CounterReduser'
+import { decValueAC, deleteCounterAC, editCounterAC, incValueAC } from '../../redux/CounterReduser'
 import { HomePage } from './HomePage'
 
 const mapStateToProps = (state) => {
@@ -10,7 +10,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        increment: (name, value, counterId) => dispatch(incValueAC(name, value, counterId))
+        increment: (name, value, counterId) => dispatch(incValueAC(name, value, counterId)),
+        decrement: (name, value, counterId) => dispatch(decValueAC(name, value, counterId)),
+        editCounter: (name , value , counterId) => dispatch(editCounterAC(name , value , counterId)),
+        deleteCounter: (counterId) => dispatch(deleteCounterAC(counterId))
     }
 }
 

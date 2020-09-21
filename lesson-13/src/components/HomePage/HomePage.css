@@ -1,0 +1,23 @@
+.page__header {
+    display: flex;
+    padding: 10px 0px;
+    margin: 0;
+    background-color: rgb(16, 196, 0);
+    color: black;
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+}
+
+.content__containter {
+    display: flex;
+    flex-grow: 1;
+    background-color: lightslategray;
+    flex-direction: column;
+}
+
+.content__list {
+    list-style-type: none;
+    padding:40px;
+    margin: 0;
+}
