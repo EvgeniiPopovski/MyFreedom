@@ -1,12 +1,12 @@
 import {connect} from 'react-redux'
+import { getProjectsAsArray } from '../../redux/selectors/Selectors'
 import { getProgectsThunk } from '../../redux/projectsReduser'
 import { SideMenu } from './SideMenu'
 
-const getProjects = (globalState) => globalState.projects
 
 const mapStateToProps = (state) => {
     return {
-        projects : getProjects(state)
+        projects : getProjectsAsArray(state)
     }
 }
 

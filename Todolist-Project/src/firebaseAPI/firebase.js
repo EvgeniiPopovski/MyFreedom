@@ -19,7 +19,25 @@ const firestoreAPI = {
         let response = await fireDB.collection(collectionName)
         let collection = await response.get()
         return  collection
-    }
+	},
+	addItem: async (collectionName , obj) => {
+		let response = await fireDB.collection(collectionName).add({
+			...obj
+		})
+		let responseObj =  await (await response.get()).data()
+		let newObj = { id : response.id , ...responseObj}
+		return newObj
+	},
+	updateItem: async (collectionName , docId , obj ) => {
+		let response = await fireDB.collection(collectionName).doc(docId).update({
+			...obj
+		})
+		return response
+	},
+	deleteItem: async (collectionName , itemId) => {
+		let response = await fireDB.collection(collectionName).doc(itemId).delete()
+		return response
+	}
 }
 
 export {firestoreAPI}
