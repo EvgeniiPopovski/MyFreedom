@@ -69,3 +69,8 @@
   grid-column: 1/2;
   padding-left: 10px;
 }
+
+.tasks__item {
+  display: flex;
+  justify-content: space-between;
+}

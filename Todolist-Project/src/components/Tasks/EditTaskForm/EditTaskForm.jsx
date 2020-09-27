@@ -1,17 +1,13 @@
 import React, { useState } from "react";
 
-const AddTaskForm = ({ projects, saveTask }) => {
-	const [showForm, setShowForm] = useState(false);
+const EditTaskForm = ({ projects , task, editTask , deleteTask }) => {
 
-	const [title, setTitle] = useState("");
-	const [description, setDescription] = useState("");
-	const [isFocusedOn, setIsFocusedOn] = useState(false);
-	const [projectId, setProjectId] = useState(null);
-	return !showForm ? (
-		<button onClick={() => setShowForm(true)}> Add Task </button>
-	) : (
-		<>
-			<button onClick={() => setShowForm(false)}>Cancel</button>
+	const [title, setTitle] = useState(task.title);
+	const [description, setDescription] = useState(task.dscription);
+	const [isFocusedOn, setIsFocusedOn] = useState(task.isFocusedOn);
+	const [projectId, setProjectId] = useState(task.projectId);
+	
+	return (
 			<div>
 				<form onSubmit={(e) => e.preventDefault()}>
 					<div>
@@ -38,7 +34,7 @@ const AddTaskForm = ({ projects, saveTask }) => {
 							<option value="">Choose a project</option>
 							{projects &&
 								projects.map((project) => (
-									<option value={project.id}>{project.name}</option>
+									<option key={project.id} value={project.id}>{project.name}</option>
 								))}
 						</select>
 					</div>
@@ -55,25 +51,23 @@ const AddTaskForm = ({ projects, saveTask }) => {
 					<div>
 						<button
 							onClick={() => {
-								saveTask({
+								editTask({
 									title,
 									description,
 									isFocusedOn,
 									projectId,
-									createdOn: Date.now().toString(),
+									createdOn: task.createdOn,
 									isDone: false,
 								})
-								setShowForm(false)
-							}
-							}
+							}}
 						>
 							Save
 						</button>
+						<button onClick={() => deleteTask(task.id)}>Delete</button>
 					</div>
 				</form>
 			</div>
-		</>
-	);
+	)
 };
 
-export { AddTaskForm };
+export { EditTaskForm };

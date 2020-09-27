@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const SideMenu = ({ projects, getProjects }) => {
+const SideMenu = ({ projects, getProjects, getTasks }) => {
 	useEffect(() => {
 		getProjects();
-	}, [getProjects]);
+		getTasks();
+	}, [getProjects, getTasks]);
 
 	if (!projects) {
 		return <h1>...loading...</h1>;
@@ -14,15 +15,14 @@ const SideMenu = ({ projects, getProjects }) => {
 			<div>
 				<h2>я сайд меню</h2>
 				<ul>
-					<li>Inbox</li>
-					<li>Focus</li>
+					<p><Link to='/Inbox'> Inbox</Link></p>
+					<p><Link to='/Focused'>Focus</Link></p>
 				</ul>
-
 				<h2>Projects</h2>
 				<ul>
 					{projects.map((item) => (
 						<li key={item.id}>
-							{item.name} <Link to={`/project/edit/${item.id}`}> edit </Link>
+							<Link to={`/project/${item.id}`}>{item.name}</Link> <Link to={`/project/edit/${item.id}`}> edit </Link>
 						</li>
 					))}
 				</ul>
