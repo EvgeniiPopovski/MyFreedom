@@ -3,9 +3,10 @@ import { AddTaskForm } from "./AddTaskForm"
 import {getProjectsAsArray} from '../../../redux/selectors/Selectors'
 import { addTaskThunk } from "../../../redux/tasksReduser"
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
-        projects: getProjectsAsArray(state)
+        projects: getProjectsAsArray(state),
+        selectedProjectId: ownProps.projectId
     }
 }
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { firestoreAPI } from "../../../firebaseAPI/firebase";
 
 const EditProjectForm = ({ project, editProject, deleteProject }) => {
 	const [name, setName] = useState("");
@@ -51,7 +52,8 @@ const EditProjectForm = ({ project, editProject, deleteProject }) => {
 				<button
 					disabled={!name}
 					onClick={() => {
-                        deleteProject(project.id);
+						deleteProject(project.id);
+						firestoreAPI.killProject('tasks' , project.id)
                         history.push("/inbox")
 					}}
 				>

@@ -1,4 +1,5 @@
 import firebase from "firebase";
+import { loginThunk } from "../redux/userReduser";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyBJG0FHazrx1QEx6Mm-xCHWSXKPsOfHCdo",
@@ -12,32 +13,66 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const fireDB = firebase.firestore()
+const fireDB = firebase.firestore();
+const auth = firebase.auth()
 
-const firestoreAPI = { 
-    getData: async (collectionName) => {
-        let response = await fireDB.collection(collectionName)
-        let collection = await response.get()
-        return  collection
+const firestoreAPI = {
+	getData: async (collectionName) => {
+		let response = await fireDB.collection(collectionName);
+		let collection = await response.get();
+		return collection;
 	},
-	addItem: async (collectionName , obj) => {
+	addItem: async (collectionName, obj) => {
 		let response = await fireDB.collection(collectionName).add({
-			...obj
-		})
-		let responseObj =  await (await response.get()).data()
-		let newObj = { id : response.id , ...responseObj}
-		return newObj
+			...obj,
+		});
+		let responseObj = await (await response.get()).data();
+		let newObj = { id: response.id, ...responseObj };
+		return newObj;
 	},
-	updateItem: async (collectionName , docId , obj ) => {
-		let response = await fireDB.collection(collectionName).doc(docId).update({
-			...obj
-		})
+	updateItem: async (collectionName, docId, obj) => {
+		let response = await fireDB
+			.collection(collectionName)
+			.doc(docId)
+			.update({
+				...obj,
+			});
+		return response;
+	},
+	deleteItem: async (collectionName, itemId) => {
+		let response = await fireDB.collection(collectionName).doc(itemId).delete();
+		return response;
+	},
+	killProject: async (collectionName, projectId) => {
+		let response = await (
+			await (
+				await fireDB
+					.collection(collectionName)
+					.where("projectId", "==", projectId)
+			).get()
+		).docs.forEach( async docum => await fireDB.collection(collectionName).doc( docum.id ).delete());
+
+		return response;
+	},
+};
+
+
+const fireAuth = {
+	register: async (email , password) => {
+		let response = await auth.createUserWithEmailAndPassword(email , password)
 		return response
 	},
-	deleteItem: async (collectionName , itemId) => {
-		let response = await fireDB.collection(collectionName).doc(itemId).delete()
+	login: async (email , password) => {
+		let response = await auth.signInWithEmailAndPassword(email , password)
+		return response
+	},
+	userStateChanged: async () => {
+		let response = await auth.onAuthStateChanged(user => loginThunk(user) , error => {})
 		return response
 	}
+
 }
 
-export {firestoreAPI}
+
+
+export { firestoreAPI , fireAuth };

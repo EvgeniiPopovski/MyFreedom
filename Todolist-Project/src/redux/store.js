@@ -2,9 +2,13 @@ import { createStore, applyMiddleware, combineReducers, compose } from "redux";
 import thunk from "redux-thunk";
 import { projectsReduser } from "./projectsReduser";
 import {taskReduser} from './tasksReduser'
+import { userReduser } from "./userReduser";
+
+
 const reduser = combineReducers({
 	projects: projectsReduser,
 	tasks: taskReduser,
+	user: userReduser,
 });
 
 const composeEnhancers =

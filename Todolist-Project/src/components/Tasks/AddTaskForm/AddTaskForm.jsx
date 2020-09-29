@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-const AddTaskForm = ({ projects, saveTask }) => {
+const AddTaskForm = ({ projects, saveTask , selectedProjectId = null}) => {
 	const [showForm, setShowForm] = useState(false);
 
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [isFocusedOn, setIsFocusedOn] = useState(false);
-	const [projectId, setProjectId] = useState(null);
+	const [projectId, setProjectId] = useState(selectedProjectId);
 	return !showForm ? (
 		<button onClick={() => setShowForm(true)}> Add Task </button>
 	) : (
@@ -34,11 +34,11 @@ const AddTaskForm = ({ projects, saveTask }) => {
 					</div>
 					<div>
 						<label htmlFor="taskProject">Task Project</label>
-						<select name="taskProject" onChange={(e) => setProjectId(e.target.value)}>
-							<option value="">Choose a project</option>
+						<select name="taskProject" onChange={(e) => setProjectId(e.target.value)} defaultValue={projectId}>
+							<option value="">Inbox</option>
 							{projects &&
 								projects.map((project) => (
-									<option value={project.id}>{project.name}</option>
+									<option key={project.id} value={project.id} >{project.name}</option>
 								))}
 						</select>
 					</div>
@@ -48,6 +48,7 @@ const AddTaskForm = ({ projects, saveTask }) => {
 							name="focusedOn"
 							type="checkbox"
 							value={isFocusedOn}
+							checked={isFocusedOn}
 							onChange={() => setIsFocusedOn(!isFocusedOn)}
 						/>
 					</div>

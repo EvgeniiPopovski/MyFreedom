@@ -1,4 +1,6 @@
 import { firestoreAPI } from "../firebaseAPI/firebase";
+import { killProjectThunk } from "./tasksReduser";
+import { batch } from "react-redux";
 
 const GET_PROJECTS = "GET_PROJECTS";
 const ADD_PROJECT = "ADD_PROJECT";
@@ -27,8 +29,8 @@ const projectsReduser = (state = {}, action) => {
 			return stateCopy;
 		}
 		case DELETE_PROJECT: {
-			let stateCopy = {...state};
-			delete stateCopy[action.payload.projectId]
+			let stateCopy = { ...state };
+			delete stateCopy[action.payload.projectId];
 			return stateCopy;
 		}
 		default:
@@ -83,7 +85,7 @@ const deleteProjectAC = (projectId) => {
 !THUNK
 */
 
-const getProgectsThunk = (dispatch, getState ) => {
+const getProgectsThunk = (dispatch, getState) => {
 	return async (dispatch) => {
 		let response = await firestoreAPI.getData("projects");
 		let projects = response.docs.map((doc) => {
@@ -95,22 +97,26 @@ const getProgectsThunk = (dispatch, getState ) => {
 
 //! addProfectAC receives obj as a parametr
 const addProjectThunk = (project) => {
-	return async (dispatch, getState ) => {
+	return async (dispatch, getState) => {
 		let response = await firestoreAPI.addItem("projects", project);
 		dispatch(addProjectAC(response));
 	};
 };
 
 const editProjectThunk = (project) => {
-	return async (dispatch, getState ) => {
+	return async (dispatch, getState) => {
 		dispatch(editProjectAC(project));
 		await firestoreAPI.updateItem("projects", project.id, project);
 	};
 };
 
+//! SHOULD KILL ALL THE TASKS CORRESPONDING TO THIS PROJECT
 const deleteProjectThunk = (projectId) => {
 	return async (dispatch, getState) => {
-		dispatch(deleteProjectAC(projectId));
+		batch(() => {
+			dispatch(deleteProjectAC(projectId));
+			dispatch(killProjectThunk(projectId));
+		});
 		await firestoreAPI.deleteItem("projects", projectId);
 	};
 };

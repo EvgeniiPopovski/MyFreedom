@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { ConnectedAddTaskForm } from "../../Tasks/AddTaskForm/ConnectedAddTaskForm";
+import { TasksListItem } from "../TasksListItem/TasksListItem";
 
-const ProjectPage = ({ tasks, project }) => {
+const ProjectPage = ({ tasks, project , editTask}) => {
 	if (!project) {
 		return <h1>...Loding...</h1>;
 	}
@@ -13,33 +13,18 @@ const ProjectPage = ({ tasks, project }) => {
 			<div>
 				{!tasks || tasks.length === 0 ? (
 					<div>
-						There is no tasks yet. Want to add one? <ConnectedAddTaskForm />
+						There is no tasks yet. Want to add one? <ConnectedAddTaskForm projectId={project.id} />
 					</div>
 				) : (
 					<>
 						<ul>
 							{tasks.map((task) => (
 								<li key={task.id}>
-									<p className="tasks__item">
-										<Link to={`/task/info/${task.id}`}>Title {task.title}</Link>
-										<p>{task.createdOn}</p>
-										<p>
-											Focused?
-											<input
-												type="checkbox"
-												checked={task.isFocusedOn}
-												value={task.isFocusedOn}
-											/>
-										</p>
-										<p>
-											Is done?
-											<input type="checkbox" checked={task.isDone} value={task.isDone} />
-										</p>
-									</p>
+									<TasksListItem {...task} editTask={editTask}/>
 								</li>
 							))}
 						</ul>
-						<ConnectedAddTaskForm />
+						<ConnectedAddTaskForm projectId={project.id} />
 					</>
 				)}
 			</div>

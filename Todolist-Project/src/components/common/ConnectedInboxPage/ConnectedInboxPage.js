@@ -1,20 +1,24 @@
-import {connect} from 'react-redux'
-import { getFilteredTasksByProject, getTasksAsArray } from '../../../redux/selectors/Selectors'
-import { ProjectPage } from '../ProjectsPage/ProjectsPage'
+import { connect } from "react-redux";
+import {
+	getFilteredTasksByProject,
+	sortTasksByIsDone,
+} from "../../../redux/selectors/Selectors";
+import { editTaskThunk } from "../../../redux/tasksReduser";
+import { ProjectPage } from "../ProjectsPage/ProjectsPage";
 
 const mapStateToProps = (state) => {
-    return {
-        tasks: getFilteredTasksByProject( getTasksAsArray(state) , null),
-        project: {name: 'Inbox'}
-    }
-}
+	return {
+		tasks: getFilteredTasksByProject( sortTasksByIsDone(state), "" || null),
+		project: { name: "Inbox" },
+	};
+};
 
 const mapDispatchToProps = (dispatch) => {
-    return {
+	return {
+		editTask: (task) => dispatch(editTaskThunk(task)),
+	};
+};
 
-    }
-}
+const ConnectedInboxPage = connect(mapStateToProps, mapDispatchToProps)(ProjectPage);
 
-const ConnectedInboxPage = connect (mapStateToProps , mapDispatchToProps)(ProjectPage)
-
-export {ConnectedInboxPage}
+export { ConnectedInboxPage };
