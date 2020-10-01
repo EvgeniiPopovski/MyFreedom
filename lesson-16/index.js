@@ -33,7 +33,6 @@ const asyncWriteFile = async (fileName, text) => {
 
 app.get("/films", async (request, response) => {
 	const dbContent = await asyncReadFile(dbPath);
-	response.header("Access-Control-Allow-Origin: *");
 	return response.json(dbContent);
 });
 
