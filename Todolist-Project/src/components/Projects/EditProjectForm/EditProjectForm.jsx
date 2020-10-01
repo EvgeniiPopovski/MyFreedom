@@ -5,6 +5,8 @@ import { firestoreAPI } from "../../../firebaseAPI/firebase";
 const EditProjectForm = ({ project, editProject, deleteProject }) => {
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
+	const [showDeleteForm, setshowDeleteForm] = useState(false);
+	const [confirmValue, setConfirmValue] = useState("");
 
 	const history = useHistory();
 
@@ -19,6 +21,43 @@ const EditProjectForm = ({ project, editProject, deleteProject }) => {
 		return <h1> ...loading... </h1>;
 	}
 
+	if (showDeleteForm) {
+		return (
+			<>
+				<div>
+					<h3>
+						Do you realy want to delete Project: <i>{project.name}</i> ?
+					</h3>
+					<p>
+						To confirm action please type <b>'Delete'</b> in the following
+						field
+					</p>
+					<input
+						type="text"
+						value={confirmValue}
+						onChange={(e) => setConfirmValue(e.target.value)}
+					/>
+					<button
+						disabled={confirmValue !== "Delete"}
+						onClick={() => {
+							deleteProject(project.id);
+							firestoreAPI.killProject("tasks", project.id);
+							history.push("/inbox");
+						}}
+					>
+						Delete
+					</button>
+					<button
+						onClick={() => {
+							setshowDeleteForm(false);
+						}}
+					>
+						Cancel
+					</button>
+				</div>
+			</>
+		);
+	}
 	return (
 		<div>
 			<form onSubmit={(e) => e.preventDefault()}>
@@ -42,20 +81,26 @@ const EditProjectForm = ({ project, editProject, deleteProject }) => {
 					/>
 				</div>
 				<button
+					disabled={!name}
 					onClick={() => {
-                        editProject({ id: project.id, name, description });
-                        history.push("/inbox")
+						editProject({
+							id: project.id,
+							name,
+							description,
+							userId: project.userId,
+						});
+						history.push("/inbox");
 					}}
 				>
 					Save
 				</button>
 				<button
-					disabled={!name}
-					onClick={() => {
-						deleteProject(project.id);
-						firestoreAPI.killProject('tasks' , project.id)
-                        history.push("/inbox")
-					}}
+					onClick={() => setshowDeleteForm(true)}
+					// onClick={() => {
+					// 	deleteProject(project.id);
+					// 	firestoreAPI.killProject("tasks", project.id);
+					// 	history.push("/inbox");
+					// }}
 				>
 					Delete
 				</button>

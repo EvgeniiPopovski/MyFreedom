@@ -1,10 +1,12 @@
 import { firestoreAPI } from "../firebaseAPI/firebase";
+import { getUserId } from "./selectors/Selectors";
 
 const GET_TASKS = "GET_TASKS";
 const ADD_TASK = "ADD_TASK";
 const EDIT_TASK = "EDIT_TASK";
 const DELETE_TASK = "DELETE_TASK";
 const KILL_PROJECT = "KILL_PROJECT";
+const LOGOUT_USER = "LOGOUT_USER";
 
 const taskReduser = (state = {}, action) => {
 	switch (action.type) {
@@ -38,6 +40,8 @@ const taskReduser = (state = {}, action) => {
 			}
 			return stateCopy;
 		}
+		case LOGOUT_USER:
+			return {};
 		default:
 			return state;
 	}
@@ -89,13 +93,20 @@ const killProjectAC = (projectId) => {
 	};
 };
 
+const onLogoutTasksAC = () => {
+	return {
+		type: LOGOUT_USER,
+	};
+};
+
 /*
 !THUNK 
 */
 
 const getTasksThunk = (tasks) => {
 	return async (dispatch, getState) => {
-		let response = await firestoreAPI.getData("tasks");
+		const userId = getUserId(getState());
+		let response = await firestoreAPI.getData("tasks", userId);
 		let tasks = response.docs.map((doc) => {
 			return { id: doc.id, ...doc.data() };
 		});
@@ -131,4 +142,12 @@ const killProjectThunk = (projectId) => {
 	};
 };
 
-export { taskReduser, getTasksThunk, addTaskThunk, editTaskThunk, deleteTaskThunk , killProjectThunk };
+export {
+	taskReduser,
+	getTasksThunk,
+	addTaskThunk,
+	editTaskThunk,
+	deleteTaskThunk,
+	killProjectThunk,
+	onLogoutTasksAC,
+};

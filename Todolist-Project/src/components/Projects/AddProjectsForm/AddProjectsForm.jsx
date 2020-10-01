@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-const AddProjectsForm = ({ addProject }) => {
+const AddProjectsForm = ({ addProject , userId }) => {
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
 	const history = useHistory();
@@ -30,7 +30,7 @@ const AddProjectsForm = ({ addProject }) => {
 				<button
 					disabled={!name}
 					onClick={async () => {
-                        await addProject({name , description})
+                        await addProject({name , description , userId})
 						history.push("/inbox");
 					}}
 				>

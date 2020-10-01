@@ -1,21 +1,24 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { ConnectedEditTaskForm } from "../../Tasks/EditTaskForm/ConnecteEditTaskForm";
 
 const TaskPage = ({ task, project, editTask }) => {
 	const [editMode, setEditMode] = useState(false);
 
-	// const [isFocusedOn, setIsFocusedOn] = useState(false);
-	// const [isDone, setIsDone] = useState(false);
-
-	// useEffect(() => {
-	// 	if (task) {
-	// 		setIsFocusedOn(task.isFocusedOn);
-	// 		setIsDone(task.isDone);
-	// 	}
-	// }, [task]);
+	const history = useHistory();
 
 	if (!task) {
-		return <div>Seems Like task was deleted</div>;
+		return (
+			<>
+				<div>
+					Task was succesfully deleted. You will be redirected to your project
+					in few seconsds
+				</div>
+				{setTimeout(() => {
+					history.goBack();
+				}, 2000)}
+			</>
+		);
 	}
 
 	return (
@@ -39,7 +42,7 @@ const TaskPage = ({ task, project, editTask }) => {
 										title: task.title,
 										projectId: task.projectId,
 										isFocusedOn: !task.isFocusedOn,
-										isDone : task.isDone,
+										isDone: task.isDone,
 										id: task.id,
 										description: task.description,
 										createdOn: task.createdOn,
@@ -57,8 +60,8 @@ const TaskPage = ({ task, project, editTask }) => {
 									editTask({
 										title: task.title,
 										projectId: task.projectId,
-										isFocusedOn : task.isFocusedOn,
-										isDone : !task.isDone,
+										isFocusedOn: task.isFocusedOn,
+										isDone: !task.isDone,
 										id: task.id,
 										description: task.description,
 										createdOn: task.createdOn,

@@ -9,16 +9,16 @@ import { ConnectedProjectPage } from "./components/common/ProjectsPage/ConectedP
 import { ConnectedInboxPage } from "./components/common/ConnectedInboxPage/ConnectedInboxPage";
 import { ConnectedFocusedPage } from "./components/common/ConnectedFocusedPage/ConnectedFocusedPage";
 import { ConnectedTaskPage } from "./components/common/TaskPage/ConnectedTaskPage";
-import { Header } from "./components/Header/Header";
 import { WelcomePage } from "./components/WelcomePage/WelcomePage";
 import { ConnectedRegistrationForm } from "./components/RegistrationForm/ConnectedRegistrationForm";
 import { ConnectedLoginForm } from "./components/LoginForm/ConnectedLogin";
+import { ConnectedHeader } from "./components/Header/ConnectedHeader";
 
 function App({ user }) {
 	return (
 		<BrowserRouter>
 			<div className="grid_container nav_wide">
-				<Header />
+				<ConnectedHeader />
 				{!user ? (
 					<Switch>
 						<Route exact path="/">
@@ -27,12 +27,14 @@ function App({ user }) {
 						<Route exact path="/welcomePage">
 							<WelcomePage />
 						</Route>
-
 						<Route exact path="/registration">
 							<ConnectedRegistrationForm />
 						</Route>
 						<Route exact path="/login">
 							<ConnectedLoginForm />
+						</Route>
+						<Route>
+							<Redirect to="/welcomePage"/>
 						</Route>
 					</Switch>
 				) : (
@@ -42,7 +44,9 @@ function App({ user }) {
 							<Route exact path="/">
 								<Redirect to="/Inbox" />
 							</Route>
-
+							<Route exact path="/welcomePage">
+								<Redirect to="/Inbox" />
+							</Route>
 							<Route exact path="/Inbox">
 								<ConnectedInboxPage />
 							</Route>

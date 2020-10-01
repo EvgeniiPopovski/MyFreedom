@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const AddTaskForm = ({ projects, saveTask , selectedProjectId = null}) => {
+const AddTaskForm = ({ projects, saveTask , selectedProjectId = null , userId}) => {
 	const [showForm, setShowForm] = useState(false);
 
 	const [title, setTitle] = useState("");
@@ -63,6 +63,7 @@ const AddTaskForm = ({ projects, saveTask , selectedProjectId = null}) => {
 									projectId,
 									createdOn: Date.now().toString(),
 									isDone: false,
+									userId
 								})
 								setShowForm(false)
 							}

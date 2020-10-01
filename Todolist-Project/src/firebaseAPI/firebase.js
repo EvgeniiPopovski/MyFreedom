@@ -1,5 +1,4 @@
 import firebase from "firebase";
-import { loginThunk } from "../redux/userReduser";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyBJG0FHazrx1QEx6Mm-xCHWSXKPsOfHCdo",
@@ -17,8 +16,9 @@ const fireDB = firebase.firestore();
 const auth = firebase.auth()
 
 const firestoreAPI = {
-	getData: async (collectionName) => {
-		let response = await fireDB.collection(collectionName);
+	getData: async (collectionName , userId) => {
+		let response = await fireDB.collection(collectionName).where('userId' , '==' , userId);
+		console.log( userId )
 		let collection = await response.get();
 		return collection;
 	},
@@ -66,13 +66,9 @@ const fireAuth = {
 		let response = await auth.signInWithEmailAndPassword(email , password)
 		return response
 	},
-	userStateChanged: async () => {
-		let response = await auth.onAuthStateChanged(user => loginThunk(user) , error => {})
-		return response
-	}
-
+	logout: async () => await auth.signOut(),
 }
 
 
 
-export { firestoreAPI , fireAuth };
+export { firestoreAPI , fireAuth , auth };

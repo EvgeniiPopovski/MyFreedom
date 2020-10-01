@@ -32,6 +32,9 @@ const sortTasksByIsDone = (state) => {
 const getUser = (state) => {
 	return state.user
 }
+const getUserId = (state) => {
+	return state.user.uid
+}
 
 export {
 	getProjectsAsArray,
@@ -42,5 +45,6 @@ export {
     getTask,
     sortTasksByTimeStmap,
 	sortTasksByIsDone,
-	getUser
+	getUser,
+	getUserId
 };

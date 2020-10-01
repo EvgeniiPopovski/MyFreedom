@@ -76,6 +76,7 @@ const EditTaskForm = ({ projects, task, editTask, deleteTask , showForm }) => {
 								projectId,
 								createdOn: task.createdOn,
 								isDone,
+								userId: task.userId
 							});
 							showForm(false)
 						}}

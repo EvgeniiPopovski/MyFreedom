@@ -1,11 +1,13 @@
 import { firestoreAPI } from "../firebaseAPI/firebase";
 import { killProjectThunk } from "./tasksReduser";
 import { batch } from "react-redux";
+import { getUserId } from "./selectors/Selectors";
 
 const GET_PROJECTS = "GET_PROJECTS";
 const ADD_PROJECT = "ADD_PROJECT";
 const EDIT_PROJECT = "EDIT_PROJECT";
 const DELETE_PROJECT = "DELETE_PROJECT";
+const LOGOUT_USER = 'LOGOUT_USER'
 
 const projectsReduser = (state = {}, action) => {
 	switch (action.type) {
@@ -33,12 +35,15 @@ const projectsReduser = (state = {}, action) => {
 			delete stateCopy[action.payload.projectId];
 			return stateCopy;
 		}
+		case LOGOUT_USER : 
+			return {}
 		default:
 			return state;
 	}
 };
 
 const getProgectsAC = (projects) => {
+	console.log(projects)
 	return {
 		type: GET_PROJECTS,
 		payload: {
@@ -81,13 +86,20 @@ const deleteProjectAC = (projectId) => {
 	};
 };
 
+const onLogoutProjectstAC = () => {
+	return {
+		type: LOGOUT_USER
+	};
+};
+
 /*
 !THUNK
 */
 
-const getProgectsThunk = (dispatch, getState) => {
-	return async (dispatch) => {
-		let response = await firestoreAPI.getData("projects");
+const getProgectsThunk = () => {
+	return async (dispatch, getState) => {
+		const userId = getUserId(getState())
+		let response = await firestoreAPI.getData("projects" , userId);
 		let projects = response.docs.map((doc) => {
 			return { id: doc.id, ...doc.data() };
 		});
@@ -127,4 +139,5 @@ export {
 	addProjectThunk,
 	editProjectThunk,
 	deleteProjectThunk,
+	onLogoutProjectstAC
 };

@@ -1,14 +1,16 @@
+import { auth } from "./../firebaseAPI/firebase";
 import { fireAuth } from "../firebaseAPI/firebase";
 
-const LOGIN_USER = "LOGIN_USER";
-const REGISTER_USER = "REGISTER_USER";
+
+const SET_USER = "SET_USER";
+const LOGOUT_USER = 'LOGOUT_USER'
 
 const userReduser = (state = null, action) => {
 	switch (action.type) {
-		case LOGIN_USER: {
+		case SET_USER: {
 			return action.payload.user;
 		}
-		case REGISTER_USER: {
+		case LOGOUT_USER: {
 			return action.payload.user;
 		}
 		default:
@@ -16,36 +18,50 @@ const userReduser = (state = null, action) => {
 	}
 };
 
-const registerUserAC = (user) => {
+const setUserAC = (user) => {
 	return {
-		type: REGISTER_USER,
+		type: SET_USER,
 		payload: {
-			user: user.user,
+			user: user,
 		},
 	};
 };
 
-const loginUserAC = (user) => {
-    return {
-        type: LOGIN_USER,
-        payload : {
-            user: user.user
-        }
-    }
-}
+const logoutUserAC = () => {
+	return {
+		type: LOGOUT_USER,
+		payload: {
+			user: null,
+		},
+	};
+};
 
 const registerThunk = (email, password) => {
 	return async (dispatch, getState) => {
 		let response = await fireAuth.register(email, password);
-		dispatch(registerUserAC(response));
+		dispatch(setUserAC(response));
 	};
 };
 
-const loginThunk = (email , password) => {
-    return async (dispatch , getState) => {
-        let response = await fireAuth.login(email , password)
-        dispatch(loginUserAC(response))
-    }
-}
+const loginThunk = (email, password) => {
+	return async (dispatch, getState) => {
+		let response = await fireAuth.login(email, password);
+		dispatch(setUserAC(response));
+	};
+};
 
-export { userReduser, registerThunk , loginThunk };
+const logoutThunk = () => {
+	return async (dispatch, getState) => {
+			dispatch(logoutUserAC());
+		await fireAuth.logout();
+	};
+};
+
+const loadUserThunk = () => {
+	return async (dispatch, getState) => {
+		await auth.onAuthStateChanged((user) => {
+			dispatch(setUserAC(user));
+		});
+	};
+};
+export { userReduser, registerThunk, loginThunk, logoutThunk , loadUserThunk };
