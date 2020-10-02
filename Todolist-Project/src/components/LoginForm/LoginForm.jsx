@@ -11,8 +11,8 @@ const LoginForm = ({ user, login, signInWithGoogle }) => {
 		<div>
 			<button
 				onClick={() => {
-                    signInWithGoogle();
-                    user || history.push('/inbox')
+					signInWithGoogle();
+					user || history.push("/inbox");
 				}}
 			>
 				Sign in with Google

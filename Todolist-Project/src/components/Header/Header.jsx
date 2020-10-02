@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { UserPreview } from "../UserPreview/UserPreview";
 
 const Header = ({ user, logout , loadUser }) => {
 	useEffect(() => {
@@ -11,8 +12,7 @@ const Header = ({ user, logout , loadUser }) => {
 
 			{user ? (
 				<>
-					<b>Hello {user.displayName || user.email}</b>
-					<button onClick={logout}>logout</button>
+					<UserPreview user={user} logout={logout} />
 				</>
 			) : (
 				<>

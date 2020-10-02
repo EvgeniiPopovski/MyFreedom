@@ -43,7 +43,6 @@ const projectsReduser = (state = {}, action) => {
 };
 
 const getProgectsAC = (projects) => {
-	console.log(projects)
 	return {
 		type: GET_PROJECTS,
 		payload: {

@@ -1,10 +1,11 @@
 import {connect} from 'react-redux'
+import { getUser } from '../../redux/selectors/Selectors'
 import { registerThunk } from '../../redux/userReduser'
 import {RegistrationForm} from '../RegistrationForm/RegistrationForm'
 
 const mapStateToProps = (state) => {
     return {
-
+        user: getUser(state)
     }
 }
 

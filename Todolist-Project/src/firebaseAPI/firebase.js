@@ -20,7 +20,6 @@ const firestoreAPI = {
 		let response = await fireDB
 			.collection(collectionName)
 			.where("userId", "==", userId);
-		console.log(userId);
 		let collection = await response.get();
 		return collection;
 	},
@@ -73,12 +72,12 @@ const fireAuth = {
 	logout: async () => await auth.signOut(),
 
 	signInWithGoogle: async () => {
-		// firebase.auth().languageCode = "en";
 		const provider = new firebase.auth.GoogleAuthProvider();
+		firebase.auth().languageCode = "en";
 		const result = await auth.signInWithPopup(provider);
-		const token = await result.credential.accessToken
-		const user = result.user
-		return user
+
+		const user = result.user;
+		return user;
 	},
 };
 

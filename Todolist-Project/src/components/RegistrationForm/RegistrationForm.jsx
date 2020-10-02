@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-const RegistrationForm = ({ register }) => {
+const RegistrationForm = ({ user  ,register }) => {
 
     const history = useHistory()
 
@@ -46,7 +46,7 @@ const RegistrationForm = ({ register }) => {
 					onClick={async () => {
                         if(password === passwordConfirmation) {
                             await register(email, password)
-                            history.push('/inbox')
+                            user && history.push('/inbox')
                         }
 						
 					}}

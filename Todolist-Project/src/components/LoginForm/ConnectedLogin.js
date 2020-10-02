@@ -1,9 +1,12 @@
 import { connect } from "react-redux";
+import { getUser } from "../../redux/selectors/Selectors";
 import { loginThunk, signInWithGoogleThunk } from "../../redux/userReduser";
 import { LoginForm } from "./LoginForm";
 
 const mapStateToProps = (state) => {
-	return {};
+	return {
+		user: getUser(state)
+	};
 };
 
 const mapDispatchToPrps = (dispatch) => {

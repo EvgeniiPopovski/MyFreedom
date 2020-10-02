@@ -15,6 +15,7 @@ const findProject = (projectsArr, projectId) => {
 const mapStateToProps = (state, ownProps) => {
     const projectId = ownProps.match.params.projectId
 	return {
+        projectId,
 		project: findProject(getProjectsAsArray(state) , projectId),
 	};
 };
