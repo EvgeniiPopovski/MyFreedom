@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, combineReducers, compose } from "redux";
 import thunk from "redux-thunk";
+import { loadingReduser } from "./loadingState";
 import { projectsReduser } from "./projectsReduser";
 import {taskReduser} from './tasksReduser'
 import { userReduser } from "./userReduser";
@@ -9,6 +10,7 @@ const reduser = combineReducers({
 	projects: projectsReduser,
 	tasks: taskReduser,
 	user: userReduser,
+	isLoading: loadingReduser
 });
 
 const composeEnhancers =
