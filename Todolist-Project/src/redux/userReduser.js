@@ -64,4 +64,11 @@ const loadUserThunk = () => {
 		});
 	};
 };
-export { userReduser, registerThunk, loginThunk, logoutThunk , loadUserThunk };
+
+const signInWithGoogleThunk = () => {
+	return async (dispatch , getState) => {
+		const  user = await fireAuth.signInWithGoogle()
+		dispatch(setUserAC(user))
+	}
+}
+export { userReduser, registerThunk, loginThunk, logoutThunk , loadUserThunk , signInWithGoogleThunk };

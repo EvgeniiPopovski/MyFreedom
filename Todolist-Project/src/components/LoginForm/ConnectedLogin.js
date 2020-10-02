@@ -1,19 +1,18 @@
-import {connect} from 'react-redux'
-import { loginThunk } from '../../redux/userReduser'
-import { LoginForm } from './LoginForm'
+import { connect } from "react-redux";
+import { loginThunk, signInWithGoogleThunk } from "../../redux/userReduser";
+import { LoginForm } from "./LoginForm";
 
 const mapStateToProps = (state) => {
-    return {
-
-    }
-}
+	return {};
+};
 
 const mapDispatchToPrps = (dispatch) => {
-    return {
-        login: (email , password) => dispatch(loginThunk(email , password))
-    }
-}
+	return {
+		login: (email, password) => dispatch(loginThunk(email, password)),
+		signInWithGoogle: () => dispatch(signInWithGoogleThunk()),
+	};
+};
 
-const ConnectedLoginForm = connect(mapStateToProps , mapDispatchToPrps)(LoginForm)
+const ConnectedLoginForm = connect(mapStateToProps, mapDispatchToPrps)(LoginForm);
 
-export {ConnectedLoginForm}
+export { ConnectedLoginForm };

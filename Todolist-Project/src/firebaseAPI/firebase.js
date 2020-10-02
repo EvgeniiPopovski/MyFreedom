@@ -13,12 +13,14 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const fireDB = firebase.firestore();
-const auth = firebase.auth()
+const auth = firebase.auth();
 
 const firestoreAPI = {
-	getData: async (collectionName , userId) => {
-		let response = await fireDB.collection(collectionName).where('userId' , '==' , userId);
-		console.log( userId )
+	getData: async (collectionName, userId) => {
+		let response = await fireDB
+			.collection(collectionName)
+			.where("userId", "==", userId);
+		console.log(userId);
 		let collection = await response.get();
 		return collection;
 	},
@@ -50,25 +52,34 @@ const firestoreAPI = {
 					.collection(collectionName)
 					.where("projectId", "==", projectId)
 			).get()
-		).docs.forEach( async docum => await fireDB.collection(collectionName).doc( docum.id ).delete());
+		).docs.forEach(
+			async (docum) =>
+				await fireDB.collection(collectionName).doc(docum.id).delete()
+		);
 
 		return response;
 	},
 };
 
-
 const fireAuth = {
-	register: async (email , password) => {
-		let response = await auth.createUserWithEmailAndPassword(email , password)
-		return response
+	register: async (email, password) => {
+		let response = await auth.createUserWithEmailAndPassword(email, password);
+		return response;
 	},
-	login: async (email , password) => {
-		let response = await auth.signInWithEmailAndPassword(email , password)
-		return response
+	login: async (email, password) => {
+		let response = await auth.signInWithEmailAndPassword(email, password);
+		return response;
 	},
 	logout: async () => await auth.signOut(),
-}
 
+	signInWithGoogle: async () => {
+		// firebase.auth().languageCode = "en";
+		const provider = new firebase.auth.GoogleAuthProvider();
+		const result = await auth.signInWithPopup(provider);
+		const token = await result.credential.accessToken
+		const user = result.user
+		return user
+	},
+};
 
-
-export { firestoreAPI , fireAuth , auth };
+export { firestoreAPI, fireAuth, auth };
