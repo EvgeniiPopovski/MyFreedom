@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { ConnectedEditTaskForm } from "../../Tasks/EditTaskForm/ConnecteEditTaskForm";
 
-const TaskPage = ({ task, project, editTask  }) => {
+const TaskPage = ({ task, project, editTask }) => {
 	const [editMode, setEditMode] = useState(false);
 
 	const history = useHistory();
-	console.log(history)
-	const projectId = history.location.state.projectId
-	
+	const projectId = history.location.state.projectId;
 
 	if (!task) {
 		return (
@@ -18,7 +16,9 @@ const TaskPage = ({ task, project, editTask  }) => {
 					in few seconsds
 				</div>
 				{setTimeout(() => {
-					projectId ? history.replace(`/project/${projectId}`) : history.replace(`/inbox`);
+					projectId
+						? history.replace(`/project/${projectId}`)
+						: history.replace(`/inbox`);
 				}, 2000)}
 			</>
 		);

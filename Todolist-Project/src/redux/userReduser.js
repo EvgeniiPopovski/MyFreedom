@@ -1,9 +1,8 @@
 import { auth } from "./../firebaseAPI/firebase";
 import { fireAuth } from "../firebaseAPI/firebase";
 
-
 const SET_USER = "SET_USER";
-const LOGOUT_USER = 'LOGOUT_USER'
+const LOGOUT_USER = "LOGOUT_USER";
 
 const userReduser = (state = null, action) => {
 	switch (action.type) {
@@ -52,7 +51,7 @@ const loginThunk = (email, password) => {
 
 const logoutThunk = () => {
 	return async (dispatch, getState) => {
-			dispatch(logoutUserAC());
+		dispatch(logoutUserAC());
 		await fireAuth.logout();
 	};
 };
@@ -66,9 +65,16 @@ const loadUserThunk = () => {
 };
 
 const signInWithGoogleThunk = () => {
-	return async (dispatch , getState) => {
-		const  user = await fireAuth.signInWithGoogle()
-		dispatch(setUserAC(user))
-	}
-}
-export { userReduser, registerThunk, loginThunk, logoutThunk , loadUserThunk , signInWithGoogleThunk };
+	return async (dispatch, getState) => {
+		const user = await fireAuth.signInWithGoogle();
+		dispatch(setUserAC(user));
+	};
+};
+export {
+	userReduser,
+	registerThunk,
+	loginThunk,
+	logoutThunk,
+	loadUserThunk,
+	signInWithGoogleThunk,
+};

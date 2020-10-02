@@ -1,0 +1,34 @@
+$preloader-size : 40px;
+
+.sk-double-bounce {
+	width: $preloader-size;
+	height: $preloader-size;
+	position: relative;
+	margin: auto;
+
+	.sk-child {
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+		background-color: lightcoral;
+		opacity: 0.6;
+		position: absolute;
+		top: 0;
+		left: 0;
+		animation: sk-double-bounce 2s infinite ease-in-out;
+	}
+
+	.sk-double-bounce-2 {
+		animation-delay: -1s;
+	}
+}
+
+@keyframes sk-double-bounce {
+	0%,
+	100% {
+		transform: scale(0);
+	}
+	50% {
+		transform: scale(1);
+	}
+}

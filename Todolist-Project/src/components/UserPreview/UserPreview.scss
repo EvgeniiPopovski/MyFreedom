@@ -1,0 +1,32 @@
+.user-preview {
+	display: flex;
+	align-items: center;
+	flex-basis: content;
+    justify-content: space-between;
+    position: relative;
+
+	&__avatar {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		margin: 0 10px
+	}
+
+	&__user-name {
+		font-weight: normal;
+    }
+    
+    &__user-name span {
+        font-weight: bold;
+    }
+	
+	
+}
+
+.dropdown-menu {
+	position: absolute;
+	top: 48px;
+	left:0;
+	display: flex;
+	flex-direction: column;
+}

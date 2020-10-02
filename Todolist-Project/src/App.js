@@ -34,12 +34,13 @@ function App({ user }) {
 							<ConnectedLoginForm />
 						</Route>
 						<Route>
-							<Redirect to="/welcomePage"/>
+							<Redirect to="/welcomePage" />
 						</Route>
 					</Switch>
 				) : (
 					<>
 						<ConnectedSideMenu />
+
 						<Switch>
 							<Route exact path="/">
 								<Redirect to="/Inbox" />
