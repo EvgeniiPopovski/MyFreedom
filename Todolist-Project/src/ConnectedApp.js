@@ -1,10 +1,11 @@
 import {connect} from 'react-redux'
 import App from './App'
-import { getUser } from './redux/selectors/Selectors'
+import { getIsLoadingUser, getUser } from './redux/selectors/Selectors'
 
 const mapStateToProps = (state) => {
     return {
-        user: getUser(state)
+        user: getUser(state),
+        isLoading: getIsLoadingUser(state)
     }
 }
 

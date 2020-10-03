@@ -1,15 +1,16 @@
 import React from "react";
-import './Preloader.scss'
+import "./Preloader.scss";
 
 const Preloader = () => {
 	return (
 		<section>
-			<div className="sk-double-bounce">
-				<div className="sk-child sk-double-bounce-1"></div>
-				<div className="sk-child sk-double-bounce-2"></div>
+			<div className="sk-three-bounce">
+				<div className="sk-bounce-1 sk-child"></div>
+				<div className="sk-bounce-2 sk-child"></div>
+				<div className="sk-bounce-3 sk-child"></div>
 			</div>
 		</section>
 	);
 };
 
-export {Preloader}
+export { Preloader };

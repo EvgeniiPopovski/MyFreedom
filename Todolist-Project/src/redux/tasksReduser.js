@@ -7,46 +7,54 @@ const EDIT_TASK = "EDIT_TASK";
 const DELETE_TASK = "DELETE_TASK";
 const KILL_PROJECT = "KILL_PROJECT";
 const LOGOUT_USER = "LOGOUT_USER";
+const LOADING_TASKS = 'LOADING_TASKS'
 
-const taskReduser = (state = {}, action) => {
+const InitialState = { tasks: {}, isLoading: false }
+
+const taskReduser = (state = InitialState, action) => {
 	switch (action.type) {
 		case GET_TASKS:
 			let stateCopy = { ...state };
 			action.payload.tasks.forEach((task) => {
-				stateCopy[task.id] = task;
+				stateCopy.tasks[task.id] = task;
 			});
 			return stateCopy;
 		case ADD_TASK: {
 			let stateCopy = { ...state };
-			stateCopy[action.payload.task.id] = action.payload.task;
+			stateCopy.tasks[action.payload.task.id] = action.payload.task;
 			return stateCopy;
 		}
 		case EDIT_TASK: {
 			let stateCopy = { ...state };
-			stateCopy[action.payload.task.id] = action.payload.task;
+			stateCopy.tasks[action.payload.task.id] = action.payload.task;
 			return stateCopy;
 		}
 		case DELETE_TASK: {
 			let stateCopy = { ...state };
-			delete stateCopy[action.payload.taskId];
+			delete stateCopy.tasks[action.payload.taskId];
 			return stateCopy;
 		}
 		case KILL_PROJECT: {
 			let stateCopy = { ...state };
-			for (let key in stateCopy) {
-				if (stateCopy[key].projectId === action.payload.projectId) {
+			for (let key in stateCopy.tasks) {
+				if (stateCopy.tasks[key].projectId === action.payload.projectId) {
 					delete stateCopy[key];
 				}
 			}
 			return stateCopy;
 		}
 		case LOGOUT_USER:
-			return {};
+			return InitialState;
+		case LOADING_TASKS:
+			return { ...state, isLoading: action.payload.isLoading }
 		default:
 			return state;
 	}
 };
 
+/*
+! Actoin creators
+*/
 const getTasksAC = (tasks) => {
 	return {
 		type: GET_TASKS,
@@ -99,25 +107,38 @@ const onLogoutTasksAC = () => {
 	};
 };
 
+const loadingTasksAC = (bool) => {
+	return {
+		type: LOADING_TASKS,
+		payload: {
+			isLoading: bool
+		}
+	}
+}
+
 /*
 !THUNK 
 */
 
 const getTasksThunk = (tasks) => {
 	return async (dispatch, getState) => {
+		dispatch(loadingTasksAC(true))
 		const userId = getUserId(getState());
 		let response = await firestoreAPI.getData("tasks", userId);
 		let tasks = response.docs.map((doc) => {
 			return { id: doc.id, ...doc.data() };
 		});
 		dispatch(getTasksAC(tasks));
+		dispatch(loadingTasksAC(false))
 	};
 };
 
 const addTaskThunk = (task) => {
 	return async (dispatch, getState) => {
+		dispatch(loadingTasksAC(true))
 		const response = await firestoreAPI.addItem("tasks", task);
 		dispatch(addTaskAC(response));
+		dispatch(loadingTasksAC(false))
 	};
 };
 

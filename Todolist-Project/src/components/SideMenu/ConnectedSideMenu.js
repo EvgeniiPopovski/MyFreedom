@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import { getProjectsAsArray } from '../../redux/selectors/Selectors'
+import { getIsLoadingProgects, getProjectsAsArray } from '../../redux/selectors/Selectors'
 import { getProgectsThunk } from '../../redux/projectsReduser'
 import { SideMenu } from './SideMenu'
 import { getTasksThunk } from '../../redux/tasksReduser'
@@ -7,7 +7,8 @@ import { getTasksThunk } from '../../redux/tasksReduser'
 
 const mapStateToProps = (state) => {
     return {
-        projects : getProjectsAsArray(state)
+        projects : getProjectsAsArray(state),
+        isLoading: getIsLoadingProgects(state)
     }
 }
 

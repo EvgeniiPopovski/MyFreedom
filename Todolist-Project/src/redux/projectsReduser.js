@@ -8,40 +8,48 @@ const ADD_PROJECT = "ADD_PROJECT";
 const EDIT_PROJECT = "EDIT_PROJECT";
 const DELETE_PROJECT = "DELETE_PROJECT";
 const LOGOUT_USER = 'LOGOUT_USER'
+const LOADING_PROJECTS = 'LOADING_PROJECTS'
 
-const projectsReduser = (state = {}, action) => {
+const InitialState = { projects: {}, isLoading: false }
+
+const projectsReduser = (state = InitialState, action) => {
 	switch (action.type) {
 		case GET_PROJECTS: {
 			let stateCopy = { ...state };
 			action.payload.projects.forEach((project) => {
-				stateCopy[project.id] = project;
+				stateCopy.projects[project.id] = project;
 			});
 			return stateCopy;
 		}
 		case ADD_PROJECT: {
 			let stateCopy = { ...state };
-			stateCopy[action.payload.project.id] = action.payload.project;
+			stateCopy.projects[action.payload.project.id] = action.payload.project;
 			return stateCopy;
 		}
 		case EDIT_PROJECT: {
-			let stateCopy = {
-				...state,
-				[action.payload.project.id]: action.payload.project,
-			};
+			let stateCopy = { ...state }
+			stateCopy.projects = { ...state.projects, [action.payload.project.id]: action.payload.project, }
 			return stateCopy;
-		}
+		};
 		case DELETE_PROJECT: {
 			let stateCopy = { ...state };
-			delete stateCopy[action.payload.projectId];
+			delete stateCopy.projects[action.payload.projectId];
 			return stateCopy;
 		}
-		case LOGOUT_USER : 
-			return {}
+		case LOADING_PROJECTS: {
+			return { ...state, isLoading: action.payload.isLoading }
+		}
+		case LOGOUT_USER:
+			return InitialState
 		default:
 			return state;
 	}
 };
 
+
+/*
+! ACTION CREATORS
+*/
 const getProgectsAC = (projects) => {
 	return {
 		type: GET_PROJECTS,
@@ -50,10 +58,6 @@ const getProgectsAC = (projects) => {
 		},
 	};
 };
-
-/*
-! ACTION CREATORS
-*/
 
 //! addProfectAC receives obj as a parametr
 const addProjectAC = (project) => {
@@ -91,26 +95,38 @@ const onLogoutProjectstAC = () => {
 	};
 };
 
+const loadingProjectsAC = (bool) => {
+	return {
+		type: LOADING_PROJECTS,
+		payload: {
+			isLoading: bool
+		}
+	}
+}
 /*
 !THUNK
 */
 
 const getProgectsThunk = () => {
 	return async (dispatch, getState) => {
+		dispatch(loadingProjectsAC(true))
 		const userId = getUserId(getState())
-		let response = await firestoreAPI.getData("projects" , userId);
+		let response = await firestoreAPI.getData("projects", userId);
 		let projects = response.docs.map((doc) => {
 			return { id: doc.id, ...doc.data() };
 		});
 		dispatch(getProgectsAC(projects));
+		dispatch(loadingProjectsAC(false))
 	};
 };
 
 //! addProfectAC receives obj as a parametr
 const addProjectThunk = (project) => {
 	return async (dispatch, getState) => {
+		dispatch(loadingProjectsAC(true))
 		let response = await firestoreAPI.addItem("projects", project);
 		dispatch(addProjectAC(response));
+		dispatch(loadingProjectsAC(false))
 	};
 };
 

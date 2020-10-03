@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { ProjectPage } from "./ProjectsPage";
 import {
 	getFilteredTasksByProject,
+	getIsLoadingPTasks,
 	getProject,
 	sortTasksByIsDone,
 } from "../../../redux/selectors/Selectors";
@@ -12,6 +13,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		tasks: getFilteredTasksByProject(sortTasksByIsDone(state), projectId),
 		project: getProject(state, projectId),
+		isLoading: getIsLoadingPTasks(state),
 	};
 };
 

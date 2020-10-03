@@ -67,7 +67,8 @@ const fireAuth = {
 	},
 	login: async (email, password) => {
 		let response = await auth.signInWithEmailAndPassword(email, password);
-		return response;
+		let user = response.user
+		return user;
 	},
 	logout: async () => await auth.signOut(),
 
@@ -75,7 +76,6 @@ const fireAuth = {
 		const provider = new firebase.auth.GoogleAuthProvider();
 		firebase.auth().languageCode = "en";
 		const result = await auth.signInWithPopup(provider);
-
 		const user = result.user;
 		return user;
 	},

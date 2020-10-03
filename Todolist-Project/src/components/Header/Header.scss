@@ -1,0 +1,11 @@
+.header {
+	grid-column: 1/3;
+	background-color: coral;
+	display: flex;
+	justify-content: space-between;
+	flex-shrink: 1;
+
+	&__title  {
+		margin: 0;
+	}
+}

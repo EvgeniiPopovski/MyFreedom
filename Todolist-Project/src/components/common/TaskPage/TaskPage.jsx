@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { ConnectedEditTaskForm } from "../../Tasks/EditTaskForm/ConnecteEditTaskForm";
 
-const TaskPage = ({ task, project, editTask }) => {
+const TaskPage = ({ task, project, editTask  }) => {
 	const [editMode, setEditMode] = useState(false);
 
 	const history = useHistory();

@@ -40,11 +40,11 @@ const LoginForm = ({ user, login, signInWithGoogle }) => {
 					/>
 				</div>
 				<button
+					disabled={!email || !password}
 					onClick={async () => {
 						await login(email, password);
 						user && history.push("/inbox");
 					}}
-					disabled={!email || !password}
 				>
 					Login
 				</button>

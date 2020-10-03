@@ -1,8 +1,8 @@
-const getProjectsAsArray = (state) => Object.values(state.projects);
+const getProjectsAsArray = (state) => Object.values(state.projects.projects);
 
-const getTasksAsArray = (state) => Object.values(state.tasks);
+const getTasksAsArray = (state) => Object.values(state.tasks.tasks);
 
-const getTasks = (state) => state.tasks;
+const getTasks = (state) => state.tasks.tasks;
 
 const getFilteredTasksByProject = (state, filterCriteria) => {
 	const filteredArray = state.filter((item) => item.projectId === filterCriteria);
@@ -30,10 +30,21 @@ const sortTasksByIsDone = (state) => {
 }
 
 const getUser = (state) => {
-	return state.user
+	return state.user.user
 }
 const getUserId = (state) => {
-	return state.user.uid
+	return state.user.user.uid
+}
+
+const getIsLoadingProgects = (state) => {
+	return state.projects.isLoading
+}
+const getIsLoadingPTasks = (state) => {
+	return state.tasks.isLoading
+}
+
+const getIsLoadingUser = (state) => {
+	return state.user.isLoading
 }
 
 export {
@@ -46,5 +57,8 @@ export {
     sortTasksByTimeStmap,
 	sortTasksByIsDone,
 	getUser,
-	getUserId
+	getUserId,
+	getIsLoadingProgects,
+	getIsLoadingPTasks,
+	getIsLoadingUser
 };

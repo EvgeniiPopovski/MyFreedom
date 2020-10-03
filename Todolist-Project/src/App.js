@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import "./App.css";
+import "./App.scss";
 import { ConnectedAddProjectForm } from "./components/Projects/AddProjectsForm/ConnectedAddProjectForm";
 import { ConenctedEditProjectForm } from "./components/Projects/EditProjectForm/ConenctedEditProjectForm";
 import { ConnectedSideMenu } from "./components/SideMenu/ConnectedSideMenu";
@@ -13,11 +13,15 @@ import { WelcomePage } from "./components/WelcomePage/WelcomePage";
 import { ConnectedRegistrationForm } from "./components/RegistrationForm/ConnectedRegistrationForm";
 import { ConnectedLoginForm } from "./components/LoginForm/ConnectedLogin";
 import { ConnectedHeader } from "./components/Header/ConnectedHeader";
+import { Preloader } from "./components/common/Preloader/Preloader";
 
-function App({ user }) {
+function App({ user, isLoading }) {
+	if (isLoading) {
+		return <Preloader />
+	}
 	return (
 		<BrowserRouter>
-			<div className="grid_container nav_wide">
+			<div className="app-containter">
 				<ConnectedHeader />
 				{!user ? (
 					<Switch>
@@ -38,55 +42,62 @@ function App({ user }) {
 						</Route>
 					</Switch>
 				) : (
-					<>
-						<ConnectedSideMenu />
-
-						<Switch>
-							<Route exact path="/">
-								<Redirect to="/Inbox" />
-							</Route>
-							<Route exact path="/welcomePage">
-								<Redirect to="/Inbox" />
-							</Route>
-							<Route exact path="/Inbox">
-								<ConnectedInboxPage />
-							</Route>
-							<Route exact path="/Focused">
-								<ConnectedFocusedPage />
-							</Route>
-							<Route exact path="/project/add">
-								<ConnectedAddProjectForm />
-							</Route>
-							<Route
-								exact
-								path="/project/:projectId"
-								render={(routeProps) => (
-									<ConnectedProjectPage {...routeProps} />
-								)}
-							/>
-							<Route
-								exact
-								path="/project/edit/:projectId"
-								render={(routeProps) => (
-									<ConenctedEditProjectForm {...routeProps} />
-								)}
-							/>
-							<Route exact path="/task/add">
-								<AddTaskForm />
-							</Route>
-							<Route
-								exact
-								path="/task/info/:taskId"
-								render={(routeProps) => (
-									<ConnectedTaskPage {...routeProps} />
-								)}
-							/>
-							<Route>
-								<h1>not found</h1>
-							</Route>
-						</Switch>
-					</>
-				)}
+						<>
+							<div className='app-container__body'>
+								<ConnectedSideMenu />
+								<Switch>
+									<Route exact path="/">
+										<Redirect to="/Inbox" />
+									</Route>
+									<Route exact path="/welcomePage">
+										<Redirect to="/Inbox" />
+									</Route>
+									<Route exact path="/Inbox">
+										<ConnectedInboxPage />
+									</Route>
+									<Route exact path="/Focused">
+										<ConnectedFocusedPage />
+									</Route>
+									<Route exact path="/project/add">
+										<ConnectedAddProjectForm />
+									</Route>
+									<Route
+										exact
+										path="/project/:projectId"
+										render={(routeProps) => (
+											<ConnectedProjectPage {...routeProps} />
+										)}
+									/>
+									<Route
+										exact
+										path="/project/edit/:projectId"
+										render={(routeProps) => (
+											<ConenctedEditProjectForm {...routeProps} />
+										)}
+									/>
+									<Route exact path="/task/add">
+										<AddTaskForm />
+									</Route>
+									<Route
+										exact
+										path="/task/info/:taskId"
+										render={(routeProps) => (
+											<ConnectedTaskPage {...routeProps} />
+										)}
+									/>
+									<Route to path='/login'>
+										<Redirect to='/inbox' />
+									</Route>
+									<Route to path='/registration'>
+										<Redirect to='/inbox' />
+									</Route>
+									<Route>
+										<h1>not found</h1>
+									</Route>
+								</Switch>
+							</div>
+						</>
+					)}
 			</div>
 		</BrowserRouter>
 	);
