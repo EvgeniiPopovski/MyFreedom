@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { ConnectedEditTaskForm } from "../../Tasks/EditTaskForm/ConnecteEditTaskForm";
+import {Preloader} from './../../common/Preloader/Preloader'
 
-const TaskPage = ({ task, project, editTask  }) => {
+const TaskPage = ({ task, project, editTask , isLoading }) => {
 	const [editMode, setEditMode] = useState(false);
 
 	const history = useHistory();
 	const projectId = history.location.state.projectId;
+
+	if(isLoading) {
+		return <Preloader />
+	}
 
 	if (!task) {
 		return (

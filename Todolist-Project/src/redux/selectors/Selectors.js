@@ -16,17 +16,21 @@ const getProject = (state, filterCriteria) => {
 	return getProjectsAsArray(state).find((project) => project.id === filterCriteria);
 };
 
+const getProjectsError = (state) => {
+	return state.projects.projectsError
+}
+
 const getTask = (state, id) => {
 	return getTasks(state)[id];
 };
 
-const sortTasksByTimeStmap = (state) =>{ 
-    
-    return getTasksAsArray(state).sort( (a, b) => Number(b.createdOn) - Number(a.createdOn) )
+const sortTasksByTimeStmap = (state) => {
+
+	return getTasksAsArray(state).sort((a, b) => Number(b.createdOn) - Number(a.createdOn))
 }
 
 const sortTasksByIsDone = (state) => {
-    return sortTasksByTimeStmap(state).sort( (a , b ) => a.isDone - b.isDone )
+	return sortTasksByTimeStmap(state).sort((a, b) => a.isDone - b.isDone)
 }
 
 const getUser = (state) => {
@@ -47,18 +51,24 @@ const getIsLoadingUser = (state) => {
 	return state.user.isLoading
 }
 
+const getUserError = (state) => {
+	return state.user.userError
+}
+
 export {
 	getProjectsAsArray,
 	getTasksAsArray,
 	getFilteredTasksByProject,
 	getProject,
 	getFilteredTasksByFocusedOn,
-    getTask,
-    sortTasksByTimeStmap,
+	getTask,
+	sortTasksByTimeStmap,
 	sortTasksByIsDone,
 	getUser,
 	getUserId,
 	getIsLoadingProgects,
 	getIsLoadingPTasks,
-	getIsLoadingUser
+	getIsLoadingUser,
+	getUserError,
+	getProjectsError
 };

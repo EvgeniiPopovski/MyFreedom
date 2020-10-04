@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import "./App.scss";
 import { ConnectedAddProjectForm } from "./components/Projects/AddProjectsForm/ConnectedAddProjectForm";
@@ -15,36 +15,44 @@ import { ConnectedLoginForm } from "./components/LoginForm/ConnectedLogin";
 import { ConnectedHeader } from "./components/Header/ConnectedHeader";
 import { Preloader } from "./components/common/Preloader/Preloader";
 
+
 function App({ user, isLoading }) {
+
+	const [showMenu, setShowMenu] = useState(true);
+	console.log(isLoading)
 	if (isLoading) {
 		return <Preloader />
 	}
 	return (
 		<BrowserRouter>
 			<div className="app-containter">
-				<ConnectedHeader />
+				<ConnectedHeader showMenu={showMenu} setShowMenu={setShowMenu} />
+				
 				{!user ? (
-					<Switch>
-						<Route exact path="/">
-							<Redirect to="/welcomePage" />
-						</Route>
-						<Route exact path="/welcomePage">
-							<WelcomePage />
-						</Route>
-						<Route exact path="/registration">
-							<ConnectedRegistrationForm />
-						</Route>
-						<Route exact path="/login">
-							<ConnectedLoginForm />
-						</Route>
-						<Route>
-							<Redirect to="/welcomePage" />
-						</Route>
-					</Switch>
+					<div className='app-container__body'>
+						<Switch>
+							<Route exact path="/">
+								<Redirect to="/welcomePage" />
+							</Route>
+							<Route exact path="/welcomePage">
+								<WelcomePage />
+							</Route>
+							<Route exact path="/registration">
+								<ConnectedRegistrationForm />
+							</Route>
+							<Route exact path="/login">
+								<ConnectedLoginForm />
+							</Route>
+							<Route>
+								<Redirect to="/welcomePage" />
+							</Route>
+						</Switch>
+					</div>
+
 				) : (
 						<>
 							<div className='app-container__body'>
-								<ConnectedSideMenu />
+								<ConnectedSideMenu showMenu={showMenu} /> 
 								<Switch>
 									<Route exact path="/">
 										<Redirect to="/Inbox" />

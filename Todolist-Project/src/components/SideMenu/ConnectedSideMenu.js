@@ -5,10 +5,11 @@ import { SideMenu } from './SideMenu'
 import { getTasksThunk } from '../../redux/tasksReduser'
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state , ownProps) => {
     return {
         projects : getProjectsAsArray(state),
-        isLoading: getIsLoadingProgects(state)
+        isLoading: getIsLoadingProgects(state),
+        showMenu: ownProps.showMenu
     }
 }
 

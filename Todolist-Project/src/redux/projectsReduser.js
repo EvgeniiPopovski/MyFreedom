@@ -9,8 +9,9 @@ const EDIT_PROJECT = "EDIT_PROJECT";
 const DELETE_PROJECT = "DELETE_PROJECT";
 const LOGOUT_USER = 'LOGOUT_USER'
 const LOADING_PROJECTS = 'LOADING_PROJECTS'
+const PROJECTS_ERROR = 'PROJECTS_ERROR'
 
-const InitialState = { projects: {}, isLoading: false }
+const InitialState = { projects: {}, isLoading: false, projectsError: null }
 
 const projectsReduser = (state = InitialState, action) => {
 	switch (action.type) {
@@ -38,6 +39,9 @@ const projectsReduser = (state = InitialState, action) => {
 		}
 		case LOADING_PROJECTS: {
 			return { ...state, isLoading: action.payload.isLoading }
+		}
+		case PROJECTS_ERROR: {
+			return { ...state, projectsError: action.payload.errorMessage }
 		}
 		case LOGOUT_USER:
 			return InitialState
@@ -103,48 +107,78 @@ const loadingProjectsAC = (bool) => {
 		}
 	}
 }
+
+const projectsErrorAC = (errorMessage) => {
+	return {
+		type: PROJECTS_ERROR,
+		payload: {
+			errorMessage
+		}
+	}
+}
 /*
 !THUNK
 */
 
 const getProgectsThunk = () => {
 	return async (dispatch, getState) => {
-		dispatch(loadingProjectsAC(true))
-		const userId = getUserId(getState())
-		let response = await firestoreAPI.getData("projects", userId);
-		let projects = response.docs.map((doc) => {
-			return { id: doc.id, ...doc.data() };
-		});
-		dispatch(getProgectsAC(projects));
-		dispatch(loadingProjectsAC(false))
+		try {
+			dispatch(loadingProjectsAC(true))
+			const userId = getUserId(getState())
+			let response = await firestoreAPI.getData("projects", userId);
+			let projects = response.docs.map((doc) => {
+				return { id: doc.id, ...doc.data() };
+			});
+			dispatch(getProgectsAC(projects));
+		} catch (e) {
+			dispatch(projectsErrorAC(`Error oquired: ${e.message}`))
+		} finally {
+			dispatch(loadingProjectsAC(false))
+		}
+
 	};
 };
 
 //! addProfectAC receives obj as a parametr
 const addProjectThunk = (project) => {
 	return async (dispatch, getState) => {
-		dispatch(loadingProjectsAC(true))
-		let response = await firestoreAPI.addItem("projects", project);
-		dispatch(addProjectAC(response));
-		dispatch(loadingProjectsAC(false))
+		try {
+			dispatch(loadingProjectsAC(true))
+			let response = await firestoreAPI.addItem("projects", project);
+			dispatch(addProjectAC(response));
+		} catch (e) {
+			dispatch(projectsErrorAC(`Error oquired: ${e.message}`))
+		} finally {
+			dispatch(loadingProjectsAC(false))
+		}
+
 	};
 };
 
 const editProjectThunk = (project) => {
 	return async (dispatch, getState) => {
-		dispatch(editProjectAC(project));
-		await firestoreAPI.updateItem("projects", project.id, project);
+		try {
+			dispatch(editProjectAC(project));
+			await firestoreAPI.updateItem("projects", project.id, project);
+		} catch (e) {
+			dispatch(projectsErrorAC(`Error oquired: ${e.message}`))
+		}
+
 	};
 };
 
 //! SHOULD KILL ALL THE TASKS CORRESPONDING TO THIS PROJECT
 const deleteProjectThunk = (projectId) => {
 	return async (dispatch, getState) => {
-		batch(() => {
-			dispatch(deleteProjectAC(projectId));
-			dispatch(killProjectThunk(projectId));
-		});
-		await firestoreAPI.deleteItem("projects", projectId);
+		try {
+			batch(() => {
+				dispatch(deleteProjectAC(projectId));
+				dispatch(killProjectThunk(projectId));
+			});
+			await firestoreAPI.deleteItem("projects", projectId);
+		} catch (e) {
+			dispatch(projectsErrorAC(`Error oquired: ${e.message}`))		}
+
 	};
 };
 

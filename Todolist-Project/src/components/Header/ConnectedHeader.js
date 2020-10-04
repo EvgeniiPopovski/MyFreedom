@@ -5,14 +5,17 @@ import { Header } from './Header'
 
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state , ownProps) => {
     return { 
-        user: getUser(state)
+        user: getUser(state),
+        sideMenu: ownProps.sideMenu,
+        showMenu: ownProps.showMenu
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch , ownProps) => {
     return {
+        openMenu: (bool) => ownProps.setShowMenu(bool),
         logout: () => dispatch(logoutThunk()),
         loadUser: () => dispatch(loadUserThunk())
     }

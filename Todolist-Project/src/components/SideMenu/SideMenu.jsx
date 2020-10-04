@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, NavLink } from "react-router-dom";
 import { Preloader } from "./../common/Preloader/Preloader";
-import './SideMenu.scss'
+import "./SideMenu.scss";
 
-const SideMenu = ({ projects, getProjects, getTasks, isLoading }) => {
-	const [wideMenu, setWideMenu] = useState(true);
-
+const SideMenu = ({ projects, getProjects, getTasks, isLoading, showMenu }) => {
 	useEffect(() => {
 		getProjects();
 		getTasks();
@@ -13,17 +11,15 @@ const SideMenu = ({ projects, getProjects, getTasks, isLoading }) => {
 
 	return (
 		<>
-			<nav className="navigation">
-				<button onClick={() => setWideMenu(false)}>Close Menu</button>
+			<nav className={showMenu ? "navigation" : "navigation hidden"}>
 				<div>
-					<h2>я сайд меню</h2>
-					<ul>
-						<p>
-							<Link to="/Inbox"> Inbox</Link>
-						</p>
-						<p>
-							<Link to="/Focused">Focus</Link>
-						</p>
+					<ul className='projectsList'>
+						<li className='projectsList__item inbox'>
+							<NavLink className='nav-link' to="/Inbox"> Inbox</NavLink>
+						</li>
+						<li className='projectsList__item focus'>
+							<NavLink className='nav-link' to="/Focused">Focus</NavLink>
+						</li>
 					</ul>
 					<h2>Projects</h2>
 					{isLoading && <Preloader />}
