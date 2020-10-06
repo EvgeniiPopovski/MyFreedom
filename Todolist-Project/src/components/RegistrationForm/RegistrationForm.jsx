@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { FadeComponent } from "../common/FadeComponent/FadeComponent";
 import "./../LoginForm/LoginForm.scss";
 
-const RegistrationForm = ({ user, register, userError, signInWithGoogle }) => {
+const RegistrationForm = ({
+	user,
+	register,
+	userError,
+	signInWithGoogle,
+	resetRegisterError,
+}) => {
 	const history = useHistory();
 
 	const [email, setEmail] = useState("");
@@ -10,10 +17,10 @@ const RegistrationForm = ({ user, register, userError, signInWithGoogle }) => {
 	const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
 	return (
-		<div className="container">
+		<FadeComponent inProp={true} timeout={100} className={"container"}>
 			<form onSubmit={(e) => e.preventDefault()} className="form login">
 				<div className="form-content">
-					<h1 className="form__header">Registration</h1>
+					<h1 className="form__header registrtion__header">Registration</h1>
 					<p className="form__sub-title">Lets get an account</p>
 
 					{userError.registerError && <div>{userError.registerError}</div>}
@@ -28,6 +35,7 @@ const RegistrationForm = ({ user, register, userError, signInWithGoogle }) => {
 							type="text"
 							placeholder="Enter your email"
 							value={email}
+							
 							onChange={(e) => setEmail(e.target.value)}
 						/>
 					</div>
@@ -41,6 +49,7 @@ const RegistrationForm = ({ user, register, userError, signInWithGoogle }) => {
 							type="password"
 							placeholder="Enter your Password"
 							value={password}
+					
 							onChange={(e) => setPassword(e.target.value)}
 						/>
 					</div>
@@ -61,19 +70,25 @@ const RegistrationForm = ({ user, register, userError, signInWithGoogle }) => {
 						className="form__button"
 						onClick={async () => {
 							if (password === passwordConfirmation) {
+								resetRegisterError()
 								await register(email, password);
-								!userError.registerError && user && history.push("/inbox");
+								!userError.registerError &&
+									user &&
+									history.push("/inbox");
 							}
 						}}
 						disabled={
-							!email || !password || !passwordConfirmation || userError.registerError
+							!email ||
+							!password ||
+							!passwordConfirmation ||
+							userError.registerError
 						}
 					>
 						Register
 					</button>
 				</div>
 			</form>
-		</div>
+		</FadeComponent>
 	);
 };
 

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { firestoreAPI } from "../../../firebaseAPI/firebase";
+import { Preloader } from "../../common/Preloader/Preloader";
+import { Button } from "./../../common/Button/Button";
+import "./../ProgectsForm.scss";
 
 const EditProjectForm = ({ project, editProject, deleteProject }) => {
 	const [name, setName] = useState("");
@@ -18,69 +21,77 @@ const EditProjectForm = ({ project, editProject, deleteProject }) => {
 	}, [project]);
 
 	if (!project) {
-		return <h1> ...loading... </h1>;
+		return <Preloader />;
 	}
 
 	if (showDeleteForm) {
 		return (
 			<>
-				<div>
-					<h3>
-						Do you realy want to delete Project: <i>{project.name}</i> ?
-					</h3>
+				<div className="main-container">
+					<h2>
+						Do you realy want to DELETE Project: <i>{project.name}</i> ?
+					</h2>
 					<p>
 						To confirm action please type <b>'Delete'</b> in the following
 						field
 					</p>
 					<input
+						className="input-block__input"
 						type="text"
 						value={confirmValue}
 						onChange={(e) => setConfirmValue(e.target.value)}
 					/>
-					<button
-						disabled={confirmValue !== "Delete"}
-						onClick={() => {
-							deleteProject(project.id);
-							firestoreAPI.killProject("tasks", project.id);
-							history.push("/inbox");
-						}}
-					>
-						Delete
-					</button>
-					<button
-						onClick={() => {
-							setshowDeleteForm(false);
-						}}
-					>
-						Cancel
-					</button>
+					<div>
+						<Button
+							kind="danger"
+							disabled={confirmValue !== "Delete"}
+							onClick={() => {
+								deleteProject(project.id);
+								firestoreAPI.killProject("tasks", project.id);
+								history.push("/inbox");
+							}}
+						>
+							Delete
+						</Button>
+						<Button
+							kind="warning"
+							onClick={() => {
+								setshowDeleteForm(false);
+							}}
+						>
+							Cancel
+						</Button>
+					</div>
 				</div>
 			</>
 		);
 	}
 	return (
-		<div>
+		<div className="main-container">
 			<form onSubmit={(e) => e.preventDefault()}>
-				<h3>Edit Project</h3>
-				<div>
+				<h1>Edit Project: {project.name}</h1>
+				<div className="input-block">
 					<label htmlFor="projectName"> New Project Name</label>
 					<input
+						className="input-block__input"
 						name="projectName"
 						type="text"
 						value={name}
 						onChange={(e) => setName(e.target.value)}
 					/>
 				</div>
-				<div>
+				<div className="input-block">
 					<label htmlFor="projectDescription"> New Project description</label>
 					<input
+						className="input-block__input"
 						name="projectDescription"
 						type="text"
 						value={description}
 						onChange={(e) => setDescription(e.target.value)}
 					/>
 				</div>
-				<button
+				<Button
+					kind="submit"
 					disabled={!name}
 					onClick={() => {
 						editProject({
@@ -93,17 +104,10 @@ const EditProjectForm = ({ project, editProject, deleteProject }) => {
 					}}
 				>
 					Save
-				</button>
-				<button
-					onClick={() => setshowDeleteForm(true)}
-					// onClick={() => {
-					// 	deleteProject(project.id);
-					// 	firestoreAPI.killProject("tasks", project.id);
-					// 	history.push("/inbox");
-					// }}
-				>
+				</Button>
+				<Button kind="danger" onClick={() => setshowDeleteForm(true)}>
 					Delete
-				</button>
+				</Button>
 			</form>
 		</div>
 	);

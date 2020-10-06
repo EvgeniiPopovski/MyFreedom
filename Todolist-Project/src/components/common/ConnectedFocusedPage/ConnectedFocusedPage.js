@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import { getFilteredTasksByFocusedOn, getIsLoadingPTasks, getProjectsError, sortTasksByIsDone } from '../../../redux/selectors/Selectors'
+import { getFilteredTasksByFocusedOn, getIsLoadingPTasks, sortTasksByIsDone } from '../../../redux/selectors/Selectors'
 import { editTaskThunk } from '../../../redux/tasksReduser'
 import { ProjectPage } from '../ProjectsPage/ProjectsPage'
 
@@ -8,7 +8,6 @@ const mapStateToProps = (state) => {
         tasks: getFilteredTasksByFocusedOn( sortTasksByIsDone(state)),
         project: {name: 'Focused on'},
         isLoading: getIsLoadingPTasks(state),
-        errorTxt: getProjectsError(state)
     }
 }
 

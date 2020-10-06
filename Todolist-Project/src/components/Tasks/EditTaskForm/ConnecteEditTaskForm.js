@@ -8,7 +8,7 @@ const mapStateToProps = (state , ownProps) => {
         task : ownProps.task,
         projects: getProjectsAsArray(state), 
         showForm: ownProps.setEditMode,
-        history : ownProps.history
+        history : ownProps.history,
     }
 }
 

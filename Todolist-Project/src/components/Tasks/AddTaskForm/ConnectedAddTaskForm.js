@@ -7,7 +7,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         projects: getProjectsAsArray(state),
         selectedProjectId: ownProps.projectId,
-        userId: getUserId(state)
+        userId: getUserId(state),
     }
 }
 

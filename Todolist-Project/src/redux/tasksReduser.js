@@ -6,10 +6,11 @@ const ADD_TASK = "ADD_TASK";
 const EDIT_TASK = "EDIT_TASK";
 const DELETE_TASK = "DELETE_TASK";
 const KILL_PROJECT = "KILL_PROJECT";
-const LOGOUT_USER = "LOGOUT_USER";
-const LOADING_TASKS = 'LOADING_TASKS'
+const LOGOUT_USER_TASKS = "LOGOUT_USER_TASKS";
+const LOADING_TASKS = "LOADING_TASKS";
+const TASK_ERROR = "TASK_ERROR";
 
-const InitialState = { tasks: {}, isLoading: false }
+const InitialState = { tasks: {}, isLoading: false, taskError: null };
 
 const taskReduser = (state = InitialState, action) => {
 	switch (action.type) {
@@ -43,10 +44,17 @@ const taskReduser = (state = InitialState, action) => {
 			}
 			return stateCopy;
 		}
-		case LOGOUT_USER:
-			return InitialState;
+		case TASK_ERROR: {
+			return {
+				...state,
+				taskError: action.payload.errorMessage,
+			};
+		}
+		case LOGOUT_USER_TASKS:
+			return  { tasks: {}, isLoading: false, taskError: null };
+
 		case LOADING_TASKS:
-			return { ...state, isLoading: action.payload.isLoading }
+			return { ...state, isLoading: action.payload.isLoading };
 		default:
 			return state;
 	}
@@ -103,7 +111,7 @@ const killProjectAC = (projectId) => {
 
 const onLogoutTasksAC = () => {
 	return {
-		type: LOGOUT_USER,
+		type: LOGOUT_USER_TASKS,
 	};
 };
 
@@ -111,10 +119,19 @@ const loadingTasksAC = (bool) => {
 	return {
 		type: LOADING_TASKS,
 		payload: {
-			isLoading: bool
-		}
-	}
-}
+			isLoading: bool,
+		},
+	};
+};
+
+const taskErrorAC = (errorMessage) => {
+	return {
+		type: TASK_ERROR,
+		payload: {
+			errorMessage,
+		},
+	};
+};
 
 /*
 !THUNK 
@@ -122,44 +139,66 @@ const loadingTasksAC = (bool) => {
 
 const getTasksThunk = (tasks) => {
 	return async (dispatch, getState) => {
-		dispatch(loadingTasksAC(true))
-		const userId = getUserId(getState());
-		let response = await firestoreAPI.getData("tasks", userId);
-		let tasks = response.docs.map((doc) => {
-			return { id: doc.id, ...doc.data() };
-		});
-		dispatch(getTasksAC(tasks));
-		dispatch(loadingTasksAC(false))
+		try {
+			dispatch(loadingTasksAC(true));
+			const userId = getUserId(getState());
+			let response = await firestoreAPI.getData("tasks", userId);
+			let tasks = response.docs.map((doc) => {
+				return { id: doc.id, ...doc.data() };
+			});
+			dispatch(getTasksAC(tasks));
+		} catch (e) {
+			dispatch(taskErrorAC(`Error oquired: ${e.message}.Please reload the page`));
+		} finally {
+			dispatch(loadingTasksAC(false));
+		}
 	};
 };
 
 const addTaskThunk = (task) => {
 	return async (dispatch, getState) => {
-		dispatch(loadingTasksAC(true))
-		const response = await firestoreAPI.addItem("tasks", task);
-		dispatch(addTaskAC(response));
-		dispatch(loadingTasksAC(false))
+		try {
+			dispatch(loadingTasksAC(true));
+			const response = await firestoreAPI.addItem("tasks", task);
+			dispatch(addTaskAC(response));
+		} catch (e) {
+			dispatch(taskErrorAC(`Error oquired: ${e.message}.Please reload the page`));
+		} finally {
+			dispatch(loadingTasksAC(false));
+		}
 	};
 };
 
 const editTaskThunk = (task) => {
 	return async (dispatch, getState) => {
-		dispatch(editTaskAC(task));
-		await firestoreAPI.updateItem("tasks", task.id, task);
+		try {
+			dispatch(editTaskAC(task));
+			await firestoreAPI.updateItem("tasks", task.id, task);
+		} catch (e) {
+			dispatch(taskErrorAC(`Error oquired: ${e.message}.Please reload the page`));
+		}
 	};
 };
 
 const deleteTaskThunk = (taskId) => {
 	return async (dispatch, getState) => {
-		dispatch(deleteTaskAC(taskId));
-		await firestoreAPI.deleteItem("tasks", taskId);
+		try {
+			dispatch(deleteTaskAC(taskId));
+			await firestoreAPI.deleteItem("tasks", taskId);
+		} catch (e) {
+			dispatch(taskErrorAC(`Error oquired: ${e.message}. Please reload the page`));
+		}
 	};
 };
 
 const killProjectThunk = (projectId) => {
 	return async (dispatch, getState) => {
-		dispatch(killProjectAC(projectId));
-		await firestoreAPI.deleteItem("tasks", projectId);
+		try {
+			dispatch(killProjectAC(projectId));
+			await firestoreAPI.deleteItem("tasks", projectId);
+		} catch (e) {
+			dispatch(taskErrorAC(`Error oquired: ${e.message}.Please reload the page`));
+		}
 	};
 };
 

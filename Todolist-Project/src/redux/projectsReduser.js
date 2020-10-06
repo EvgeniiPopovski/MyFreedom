@@ -7,7 +7,7 @@ const GET_PROJECTS = "GET_PROJECTS";
 const ADD_PROJECT = "ADD_PROJECT";
 const EDIT_PROJECT = "EDIT_PROJECT";
 const DELETE_PROJECT = "DELETE_PROJECT";
-const LOGOUT_USER = 'LOGOUT_USER'
+const LOGOUT_USER_PROJECTS = 'LOGOUT_USER_PROJECTS'
 const LOADING_PROJECTS = 'LOADING_PROJECTS'
 const PROJECTS_ERROR = 'PROJECTS_ERROR'
 
@@ -43,8 +43,8 @@ const projectsReduser = (state = InitialState, action) => {
 		case PROJECTS_ERROR: {
 			return { ...state, projectsError: action.payload.errorMessage }
 		}
-		case LOGOUT_USER:
-			return InitialState
+		case LOGOUT_USER_PROJECTS:
+			return  { projects: {}, isLoading: false, projectsError: null }
 		default:
 			return state;
 	}
@@ -95,7 +95,7 @@ const deleteProjectAC = (projectId) => {
 
 const onLogoutProjectstAC = () => {
 	return {
-		type: LOGOUT_USER
+		type: LOGOUT_USER_PROJECTS
 	};
 };
 
@@ -131,7 +131,7 @@ const getProgectsThunk = () => {
 			});
 			dispatch(getProgectsAC(projects));
 		} catch (e) {
-			dispatch(projectsErrorAC(`Error oquired: ${e.message}`))
+			dispatch(projectsErrorAC(`Error oquired: ${e.message}.Please reload the page`))
 		} finally {
 			dispatch(loadingProjectsAC(false))
 		}
@@ -147,7 +147,7 @@ const addProjectThunk = (project) => {
 			let response = await firestoreAPI.addItem("projects", project);
 			dispatch(addProjectAC(response));
 		} catch (e) {
-			dispatch(projectsErrorAC(`Error oquired: ${e.message}`))
+			dispatch(projectsErrorAC(`Error oquired: ${e.message}.Please reload the page`))
 		} finally {
 			dispatch(loadingProjectsAC(false))
 		}
@@ -161,7 +161,7 @@ const editProjectThunk = (project) => {
 			dispatch(editProjectAC(project));
 			await firestoreAPI.updateItem("projects", project.id, project);
 		} catch (e) {
-			dispatch(projectsErrorAC(`Error oquired: ${e.message}`))
+			dispatch(projectsErrorAC(`Error oquired: ${e.message}.Please reload the page`))
 		}
 
 	};
@@ -177,7 +177,7 @@ const deleteProjectThunk = (projectId) => {
 			});
 			await firestoreAPI.deleteItem("projects", projectId);
 		} catch (e) {
-			dispatch(projectsErrorAC(`Error oquired: ${e.message}`))		}
+			dispatch(projectsErrorAC(`Error oquired: ${e.message}.Please reload the page`))		}
 
 	};
 };

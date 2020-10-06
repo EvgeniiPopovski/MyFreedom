@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import './TaskListItem.scss'
+import starFilled from "./../../../icons/star.svg";
+import starOutlined from "./../../../icons/star-outline.svg";
+import "./TaskListItem.scss";
+import { FadeComponent } from "../FadeComponent/FadeComponent";
 
 const TasksListItem = ({
 	id,
@@ -11,57 +14,78 @@ const TasksListItem = ({
 	isDone,
 	projectId,
 	editTask,
+	date,
 }) => {
 	return (
-		<div className="tasks__item">
-			<Link
-				to={{
-					pathname: `/task/info/${id}`,
-					state: {projectId},
-				}}
-			>
-				Title {title}
-			</Link>
-			<p>{createdOn}</p>
-			<p>
-				Focused?
-				<input
-					type="checkbox"
-					checked={isFocusedOn}
-					value={isFocusedOn}
-					onChange={() => {
-						editTask({
-							id,
-							title,
-							createdOn,
-							isFocusedOn: !isFocusedOn,
-							isDone,
-							projectId,
-							description,
-						});
+		<FadeComponent inProp={true} timeout={100}>
+			<div className={!isDone ? "tasks__item" : "tasks__item done"}>
+				<Link
+					className="task__link link"
+					to={{
+						pathname: `/task/info/${id}`,
+						state: { projectId },
 					}}
-				/>
-			</p>
-			<p>
-				Is done?
-				<input
-					type="checkbox"
-					checked={isDone}
-					value={isDone}
-					onChange={() => {
-						editTask({
-							id,
-							title,
-							createdOn,
-							isFocusedOn,
-							isDone: !isDone,
-							projectId,
-							description,
-						});
-					}}
-				/>
-			</p>
-		</div>
+				>
+					{title}
+				</Link>
+				{isFocusedOn ? (
+					<img
+						src={starFilled}
+						alt="focused on task"
+						width="20px"
+						onClick={() =>
+							editTask({
+								id,
+								title,
+								createdOn,
+								isFocusedOn: !isFocusedOn,
+								isDone,
+								projectId,
+								description,
+							})
+						}
+					/>
+				) : (
+					<img
+						src={starOutlined}
+						alt="focused on task"
+						width="20px"
+						onClick={() =>
+							editTask({
+								id,
+								title,
+								createdOn,
+								isFocusedOn: !isFocusedOn,
+								isDone,
+								projectId,
+								description,
+							})
+						}
+					/>
+				)}
+				<p className="tasks__item-isDone">Dat of expire: {date}</p>
+				<p className="tasks__item-isDone">
+					Is done?
+					<input
+						type="checkbox"
+						checked={isDone}
+						value={isDone}
+						onChange={() => {
+							editTask({
+								id,
+								title,
+								createdOn,
+								isFocusedOn,
+								isDone: !isDone,
+								projectId,
+								description,
+							});
+						}}
+					/>
+				</p>
+			</div>
+			<p className="tasks__item-description">{description}</p>
+		</FadeComponent>
 	);
 };
 

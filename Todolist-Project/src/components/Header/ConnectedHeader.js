@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import { getUser } from '../../redux/selectors/Selectors'
+import {  getUser } from '../../redux/selectors/Selectors'
 import { loadUserThunk, logoutThunk } from '../../redux/userReduser'
 import { Header } from './Header'
 
@@ -9,7 +9,7 @@ const mapStateToProps = (state , ownProps) => {
     return { 
         user: getUser(state),
         sideMenu: ownProps.sideMenu,
-        showMenu: ownProps.showMenu
+        showMenu: ownProps.showMenu,
     }
 }
 

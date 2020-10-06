@@ -14,6 +14,9 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-const ConnectedAddProjectForm = connect(mapStateToProps, mapDispatchToProps)(AddProjectsForm);
+const ConnectedAddProjectForm = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(AddProjectsForm);
 
 export { ConnectedAddProjectForm };

@@ -2,13 +2,14 @@ import React from 'react';
 import './Button.scss'
 
 const buttonKind = {
-    delete: 'danger',
+    danger: 'danger',
     submit: 'submit',
-    edit: 'edit',
+    warning: 'warning',
+    transparent: 'transparent'
 }
 
-const Button = ({children , onClick , kind}) => {
-return <button className={`btn btn-${buttonKind[kind]}`} onClick={onClick}>{children}</button>
+const Button = ({children , onClick , kind , disabled}) => {
+return <button disabled={disabled} className={`btn btn-${buttonKind[kind]}`} onClick={onClick}>{children}</button>
 }
 
 export {Button}

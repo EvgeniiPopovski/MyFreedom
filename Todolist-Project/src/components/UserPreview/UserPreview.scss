@@ -1,32 +1,98 @@
+$avatar-size: 40px;
+$font-large: 20px;
+$font-medium: 18px;
+$font-small: 12px;
+
 .user-preview {
 	display: flex;
 	align-items: center;
 	flex-basis: content;
-    justify-content: space-between;
-    position: relative;
-
+	justify-content: space-between;
+	position: relative;
 	&__avatar {
-		width: 40px;
-		height: 40px;
+		width: $avatar-size;
+		height: $avatar-size;
 		border-radius: 50%;
-		margin: 0 10px
+		margin: 0 10px;
 	}
 
 	&__user-name {
 		font-weight: normal;
-    }
-    
-    &__user-name span {
-        font-weight: bold;
-    }
-	
-	
+		margin: 0;
+	}
+
+	&__user-name span {
+		font-weight: bold;
+	}
+	.user-name {
+		margin-left: 5px;
+		font-weight: bold;
+		display: inline-flex;
+		align-self: center;
+	}
 }
 
 .dropdown-menu {
+	width: 150px;
+	height: 300px;
+	border: 1px solid black;
+	background-color: #f2dede;
+	box-shadow: 4px 4px 10px black;
+	padding: 15px;
 	position: absolute;
-	top: 48px;
-	left:0;
+	top: 55px;
+	right: 10px;
 	display: flex;
+	align-items: center;
 	flex-direction: column;
+	transition: all 0.1s ease-in;
+	&__avatar {
+		width: 60px;
+		height: 60px;
+		border-radius: 50%;
+		margin: 0 10px;
+	}
+	&__list {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	&__listItems {
+		margin: 10px 0;
+	}
+}
+
+.dropdown-menu.entering {
+	opacity: 0;
+}
+.dropdown-menu.entered {
+	opacity: 1;
+}
+.dropdown-menu.exit {
+	opacity: 1;
+}
+.dropdown-menu.exiting {
+	opacity: 0;
+}
+
+@media (max-width: 768px) {
+	.user-preview {
+		&__avatar {
+			width: $avatar-size / 1.5;
+			height: $avatar-size / 1.5;
+			border-radius: 50%;
+			margin: 0 5px;
+		}
+		&__user-name {
+			font-size: $font-small;
+			margin: 0;
+			text-align: center;
+		}
+		.user-name {
+			margin: 0;
+			font-weight: bold;
+			display:block;
+			text-align: center;;
+		}
+	}
 }

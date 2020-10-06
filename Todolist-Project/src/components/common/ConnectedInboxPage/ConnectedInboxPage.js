@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import {
 	getFilteredTasksByProject,
 	getIsLoadingPTasks,
-	getProjectsError,
+
 	sortTasksByIsDone,
 } from "../../../redux/selectors/Selectors";
 import { editTaskThunk } from "../../../redux/tasksReduser";
@@ -10,10 +10,10 @@ import { ProjectPage } from "../ProjectsPage/ProjectsPage";
 
 const mapStateToProps = (state) => {
 	return {
-		tasks: getFilteredTasksByProject( sortTasksByIsDone(state), "" || null),
+		tasks: getFilteredTasksByProject( sortTasksByIsDone(state), 'inbox'),
 		project: { name: "Inbox" },
 		isLoading: getIsLoadingPTasks(state),
-		errorTxt: getProjectsError(state)
+
 	};
 };
 

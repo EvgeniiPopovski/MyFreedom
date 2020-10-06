@@ -4,6 +4,8 @@ const getTasksAsArray = (state) => Object.values(state.tasks.tasks);
 
 const getTasks = (state) => state.tasks.tasks;
 
+const getTasksError = (state) => state.tasks.taskError;
+
 const getFilteredTasksByProject = (state, filterCriteria) => {
 	const filteredArray = state.filter((item) => item.projectId === filterCriteria);
 	return filteredArray;
@@ -17,43 +19,44 @@ const getProject = (state, filterCriteria) => {
 };
 
 const getProjectsError = (state) => {
-	return state.projects.projectsError
-}
+	return state.projects.projectsError;
+};
 
 const getTask = (state, id) => {
 	return getTasks(state)[id];
 };
 
 const sortTasksByTimeStmap = (state) => {
-
-	return getTasksAsArray(state).sort((a, b) => Number(b.createdOn) - Number(a.createdOn))
-}
+	return getTasksAsArray(state).sort(
+		(a, b) => Number(b.createdOn) - Number(a.createdOn)
+	);
+};
 
 const sortTasksByIsDone = (state) => {
-	return sortTasksByTimeStmap(state).sort((a, b) => a.isDone - b.isDone)
-}
+	return sortTasksByTimeStmap(state).sort((a, b) => a.isDone - b.isDone);
+};
 
 const getUser = (state) => {
-	return state.user.user
-}
+	return state.user.user;
+};
 const getUserId = (state) => {
-	return state.user.user.uid
-}
+	return state.user.user.uid;
+};
 
 const getIsLoadingProgects = (state) => {
-	return state.projects.isLoading
-}
+	return state.projects.isLoading;
+};
 const getIsLoadingPTasks = (state) => {
-	return state.tasks.isLoading
-}
+	return state.tasks.isLoading;
+};
 
 const getIsLoadingUser = (state) => {
-	return state.user.isLoading
-}
+	return state.user.isLoading;
+};
 
 const getUserError = (state) => {
-	return state.user.userError
-}
+	return state.user.userError;
+};
 
 export {
 	getProjectsAsArray,
@@ -70,5 +73,6 @@ export {
 	getIsLoadingPTasks,
 	getIsLoadingUser,
 	getUserError,
-	getProjectsError
+	getProjectsError,
+	getTasksError,
 };

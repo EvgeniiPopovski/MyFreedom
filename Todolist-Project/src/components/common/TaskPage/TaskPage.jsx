@@ -1,46 +1,45 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { ConnectedEditTaskForm } from "../../Tasks/EditTaskForm/ConnecteEditTaskForm";
-import {Preloader} from './../../common/Preloader/Preloader'
+import { Button } from "../Button/Button";
+import { FadeComponent } from "../FadeComponent/FadeComponent";
+import { Preloader } from "./../../common/Preloader/Preloader";
 
-const TaskPage = ({ task, project, editTask , isLoading }) => {
+const TaskPage = ({ task, project, editTask, isLoading }) => {
 	const [editMode, setEditMode] = useState(false);
 
 	const history = useHistory();
 	const projectId = history.location.state.projectId;
 
-	if(isLoading) {
-		return <Preloader />
+	if (isLoading) {
+		return <Preloader />;
 	}
 
 	if (!task) {
 		return (
 			<>
-				<div>
-					Task was succesfully deleted. You will be redirected to your project
-					in few seconsds
-				</div>
+				<Preloader />
 				{setTimeout(() => {
-					projectId
+					projectId !== "inbox"
 						? history.replace(`/project/${projectId}`)
 						: history.replace(`/inbox`);
-				}, 2000)}
+				}, 1000)}
 			</>
 		);
 	}
 
 	return (
-		<>
+		<FadeComponent inProp={true} timeout={100} className={"main-container"}>
 			{editMode ? (
 				<ConnectedEditTaskForm task={task} setEditMode={setEditMode} />
 			) : (
 				<>
 					<div>
-						<h1>Task Name : {task.title}</h1>
-						<p>Task Description : {task.description}</p>
-						{project && <p>To project : {project.name}</p>}
+						<h1>{task.title}</h1>
+						<p>Task Description: {task.description}</p>
+						{project && <p>To project: {project.name}</p>}
 						<p>
-							Is Focused :
+							Is Focused:
 							<input
 								type="checkbox"
 								value={task.isFocusedOn}
@@ -78,12 +77,14 @@ const TaskPage = ({ task, project, editTask , isLoading }) => {
 							/>
 						</p>
 						<div>
-							<button onClick={() => setEditMode(true)}>Edit task</button>
+							<Button kind="warning" onClick={() => setEditMode(true)}>
+								Edit task
+							</Button>
 						</div>
 					</div>
 				</>
 			)}
-		</>
+		</FadeComponent>
 	);
 };
 

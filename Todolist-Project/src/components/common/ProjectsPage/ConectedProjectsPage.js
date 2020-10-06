@@ -5,7 +5,7 @@ import {
 	getIsLoadingPTasks,
 	getProject,
 	sortTasksByIsDone,
-	getProjectsError
+
 } from "../../../redux/selectors/Selectors";
 import { editTaskThunk } from "../../../redux/tasksReduser";
 
@@ -15,7 +15,6 @@ const mapStateToProps = (state, ownProps) => {
 		tasks: getFilteredTasksByProject(sortTasksByIsDone(state), projectId),
 		project: getProject(state, projectId),
 		isLoading: getIsLoadingPTasks(state),
-		errorTxt: getProjectsError(state)
 	};
 };
 
@@ -28,3 +27,7 @@ const mapDispatchToProps = (dispatch) => {
 const ConnectedProjectPage = connect(mapStateToProps, mapDispatchToProps)(ProjectPage);
 
 export { ConnectedProjectPage };
+
+
+let d = new Date()
+console.log(d.toLocaleString({year: 'numeric' , month: 'numeric' , day: 'numeric'}))

@@ -4,16 +4,17 @@ import { UserPreview } from "../UserPreview/UserPreview";
 import "./Header.scss";
 import menuIcon from "./../../icons/menu-outline.svg";
 
+
 const Header = ({ user, logout, loadUser, openMenu, showMenu }) => {
 	useEffect(() => {
 		loadUser();
 	});
 	return (
 		<header className="header">
-			{user &&  <button  onClick={() => openMenu(!showMenu)}>
-				<img width="30px" height="30px" src={menuIcon} alt="Close Menu" />
+			{user &&  <button className='sideMenu-toggler' onClick={() => openMenu(!showMenu)}>
+				<img className='sideMenu-toggler-img' src={menuIcon} alt="Close Menu" />
 			</button>}
-			<h1 className="header__title"> The best todolist ever (no) </h1>
+			<h1 className="header__title">best todolist</h1>
 
 			{user ? (
 				<>

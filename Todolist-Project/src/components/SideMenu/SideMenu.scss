@@ -1,33 +1,132 @@
+$font-small: 14px;
+$font-medium: 20px;
+$font-large: 20px;
+$padding-btn: 10px;
+
 .navigation {
-    flex-basis: 250px;
-    padding: 0 10px 0 20px;
-    min-width: max-content;
-    background-color: #f2dede;
-    flex-shrink:1;
-    height: 100%;
+	background-color: #f2dede;
+	flex-shrink: 1;
+	height: 100%;
+	transition: all 200ms ease-in;
+	h2 {
+		transition: all 200ms ease-in;
+	}
+	img {
+		transition: all 200ms ease-in;
+	}
 }
 
-.projectsList{
-    margin: 25px 0 0 0;
-    padding: 0;
-    list-style-type: none;
-    &__item{
-        margin-top: 10px;
-        color: white;
-    }
+.list {
+	margin: 20px 0 0 0;
+	padding: 0;
+	list-style-type: none;
+	&__item {
+		margin-top: 10px;
+		color: white;
+	}
 }
-
 .nav-link {
-    color: rgb(67, 78, 88);
-	font-size: 20px;
+	color: rgb(67, 78, 88);
+	font-size: $font-medium;
 	text-decoration: none;
-    transition: all 0.2s ease-in;
-    &.active {
-        text-decoration: underline;
-        color: black;
-    }
-    
+	transition: all 0.2s ease-in;
+	&.active {
+		text-decoration: underline;
+		color: black;
+	}
 }
-.hidden {
-    display: none
+
+.sideMenu__btn {
+	color: black;
+	text-decoration: none;
+	border: 1px solid black;
+	border-radius: 4px;
+	background-color: transparent;
+	padding: $padding-btn;
+	font-size: 17px;
+	transition: all 0.2s ease-in;
+}
+
+.sideMenu__btn:hover {
+	background-color: #78ee8f;
+}
+
+.projects-container {
+	margin-bottom: 40px;
+}
+
+.navigation.entering {
+	width: 0;
+	.nav-link,
+	.sideMenu__btn,
+	h2,
+	img {
+		opacity: 0;
+	}
+}
+.navigation.entered {
+	width: 350px;
+	padding: 0 10px 0 20px;
+	.nav-link,
+	.sideMenu__btn,
+	h2,
+	img {
+		opacity: 1;
+	}
+}
+.navigation.exit {
+	width: 350px;
+	padding: 0 10px 0 20px;
+	.nav-link,
+	.sideMenu__btn,
+	h2,
+	img {
+		opacity: 1;
+	}
+}
+.navigation.exiting {
+	width: 0;
+	.nav-link,
+	.sideMenu__btn,
+	h2,
+	img {
+		opacity: 0;
+	}
+}
+
+
+@media (max-width: 768px) {
+	.navigation {
+		h2 {
+			font-size: $font-large;
+			margin: 20px 0;
+		}
+	}
+	.sideMenu__btn {
+		padding: $padding-btn / 2;
+		font-size: $font-small;
+	}
+	.nav-link {
+		font-size: $font-small;
+	}
+	.navigation.entered {
+		width: 200px;
+		padding: 0 10px 0 15px;
+		.nav-link,
+		.sideMenu__btn,
+		h2,
+		img {
+			opacity: 1;
+		}
+	}
+	.navigation.exit {
+		width: 200px;
+		padding: 0 10px 0 15px;
+		.nav-link,
+		.sideMenu__btn,
+		h2,
+		img {
+			opacity: 1;
+		}
+	}
 }

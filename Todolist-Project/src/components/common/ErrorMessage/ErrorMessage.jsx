@@ -1,8 +1,13 @@
 import React from "react";
-import './ErrorMessage.scss'
+import { FadeComponent } from "../FadeComponent/FadeComponent";
+import "./ErrorMessage.scss";
 
 const ErrorMessage = ({ errorTxt }) => {
-	return <div className="error__section">{errorTxt}</div>;
+	return (
+		<FadeComponent inProp={true} timeout={100} className={"error__section"}>
+			{errorTxt}
+		</FadeComponent>
+	);
 };
 
-export {ErrorMessage}
+export { ErrorMessage };

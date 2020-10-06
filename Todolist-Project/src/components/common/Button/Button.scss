@@ -1,24 +1,39 @@
 $button-size: 25px;
-$button-padding: 7px; 
+$button-padding: 10px;
+$font-size-normal: 17px;
+$font-size-small: 13px;
 
 .btn {
-    padding: $button-padding $button-padding*2;
-    border: none;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
+	color: black;
+	text-decoration: none;
+	border: 1px solid black;
+	border-radius: 4px;
+	background-color: transparent;
+	padding: $button-padding $button-padding;
+	font-size: 17px;
+	margin-right: 10px;
+	transition: all 0.2s ease-in;
+}
+.btn-submit:hover {
+	background-color: #78ee8f;
+}
+.btn-transparent:hover {
+	background-color: #78ee8f;
+}
+.btn-danger:hover {
+	background-color: #d11a2a;
+}
+.btn-warning:hover {
+	background-color: rgb(255, 224, 46);
 }
 
-.btn:disabled{
-    opacity: .5;
+.btn:disabled {
+	opacity: 0.5;
 }
 
-.btn-delete { 
-    background-color: #D11A2A;
-}
-.btn-submit { 
-    background-color: #4bd34f;
-}
-.btn-edit { 
-    background-color: rgb(255, 224, 46);
+@media (max-width: 768px) {
+	.btn {
+		padding: $button-padding / 1.5 $button-padding / 1.5;
+		font-size: $font-size-small;
+	}
 }

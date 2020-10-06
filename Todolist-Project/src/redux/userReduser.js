@@ -1,5 +1,8 @@
 import { auth } from "./../firebaseAPI/firebase";
 import { fireAuth } from "../firebaseAPI/firebase";
+import { onLogoutTasksAC } from "./tasksReduser";
+import { onLogoutProjectstAC } from "./projectsReduser";
+
 
 const SET_USER = "SET_USER";
 const LOGOUT_USER = "LOGOUT_USER";
@@ -15,7 +18,7 @@ const userReduser = (state = InitialState , action) => {
 			return { ...state, user: action.payload.user };
 		}
 		case LOGOUT_USER: {
-			return { ...state, user: action.payload.user };
+			return InitialState;
 		}
 		case LOADING_USER: {
 			return { ...state, isLoading: action.payload.isLoading }
@@ -41,9 +44,6 @@ const setUserAC = (user) => {
 const logoutUserAC = () => {
 	return {
 		type: LOGOUT_USER,
-		payload: {
-			user: null,
-		},
 	};
 };
 
@@ -71,6 +71,8 @@ const userErrorRegisterAC = (errorMessage) => {
 		}
 	}
 }
+
+
 
 /*
 !THUNK
@@ -111,7 +113,9 @@ const loginThunk = (email, password) => {
 const logoutThunk = () => {
 	return async (dispatch, getState) => {
 		try {
-			dispatch(logoutUserAC());
+			dispatch(logoutUserAC())
+			dispatch(onLogoutTasksAC());
+			dispatch(onLogoutProjectstAC())
 			await fireAuth.logout();
 		} catch (e) {
 			dispatch(userErrorLoginAC(`Error oquired: ${e.message}`))
@@ -142,8 +146,6 @@ const signInWithGoogleThunk = () => {
 		} finally {
 			dispatch(loadingUserAC(false))
 		}
-
-
 	};
 };
 export {
@@ -153,4 +155,6 @@ export {
 	logoutThunk,
 	loadUserThunk,
 	signInWithGoogleThunk,
+	userErrorLoginAC,
+	userErrorRegisterAC,
 };

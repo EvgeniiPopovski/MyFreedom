@@ -38,13 +38,13 @@
 }
 .app__wrapper {
 	display: flex;
-	
 }
 
 .app-containter {
 	display: flex;
 	flex-direction: column;
 	height: 100vh;
+	
 }
 
 .app-container__body {
@@ -55,4 +55,5 @@
 
 .main-container {
 	width: 100%;
+	padding: 0 20px;
 }

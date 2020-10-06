@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Transition } from "react-transition-group";
 import "./UserPreview.scss";
+import downArrow from "./../../icons/arrow-ios-downward-outline.svg";
+import upArrow from "./../../icons/arrow-ios-upward-outline.svg";
+import { Button } from "../common/Button/Button";
+
 const UserPreview = ({ user, logout }) => {
-	const [showMenu, setShowMenu] = useState(false);
+	const [showDropDown, setShowDropDown] = useState(false);
 
 	return (
 		<div className="user-preview">
@@ -13,32 +18,52 @@ const UserPreview = ({ user, logout }) => {
 					alt="User pisture"
 				/>
 			)}
-			<p className="user-preview__user-name">
+			<div className="user-preview__user-name">
 				Hello
-				<span
+				<p
+					className="user-name"
 					onClick={() => {
-						setShowMenu(!showMenu);
+						setShowDropDown(!showDropDown);
 					}}
 				>
-					{user.displayName || user.email} &#709;
-				</span>
-			</p>
+					{user.displayName || user.email}
+					<img
+						width="20px"
+						className="dropdown-arrow"
+						src={showDropDown ? upArrow : downArrow}
+						alt="dropdown-arrow"
+					/>
+				</p>
+			</div>
 
-			{showMenu && (
-				<div className="dropdown-menu">
-					<ul >
-						<li>
-							<Link to={`/userProfile/${user.uid}`}>Profile</Link>
-						</li>
-						<li>
-							<Link to={`/settings`}>Setings</Link>
-						</li>
-						<li>
-							<button onClick={logout}>Logout</button>
-						</li>
-					</ul>
-				</div>
-			)}
+			
+				<Transition in={showDropDown} timeout={100} appear unmountOnExit>
+					{(state) => (
+					<div className={`dropdown-menu ${state}`}>
+							<ul className="dropdown-menu__list list">
+								{user.photoURL && (
+									<li className="dropdown-menu__listItems">
+										<img
+											className="dropdown-menu__avatar"
+											src={user.photoURL}
+											alt="user avatar"
+										/>
+									</li>
+								)}
+
+								<li className="dropdown-menu__listItems">
+									<Link to={`/userProfile/${user.uid}`}>Profile</Link>
+								</li>
+								<li className="dropdown-menu__listItems">
+									<Link to={`/settings`}>Setings</Link>
+								</li>
+								<li className="dropdown-menu__listItems">
+									<Button onClick={logout}>Logout</Button>
+								</li>
+							</ul>
+						</div>
+					)}
+				</Transition>
 		</div>
 	);
 };
