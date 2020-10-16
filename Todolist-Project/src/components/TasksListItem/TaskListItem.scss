@@ -27,6 +27,11 @@
   border-bottom: 1px solid lightgray;
 }
 
+.task__item-isDragging{
+	background-color: white;
+	box-shadow: 20px 30px 5px rgba(119, 136, 153, 0.527);
+}
+
 .tasks__item-isDone {
   font-size: 12px;
   margin: 10px 0;
@@ -38,6 +43,8 @@
 .task_like-img{
 	cursor: pointer;
 }
+
+
 
 
 .tasks__item-enter {

@@ -103,6 +103,7 @@ const ProjectPage = ({
 												>
 													{(provided, snapshot) => (
 														<li
+															className={snapshot.isDragging && 'task__item-isDragging'}
 															ref={provided.innerRef}
 															{...provided.draggableProps}
 															{...provided.dragHandleProps}
