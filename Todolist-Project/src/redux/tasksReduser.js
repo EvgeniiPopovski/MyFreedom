@@ -1,5 +1,5 @@
 import { firestoreAPI } from "../firebaseAPI/firebase";
-import { getUserId } from "./selectors/Selectors";
+import { getUserId } from "./../components/Header/userSelector";
 
 const GET_TASKS = "GET_TASKS";
 const ADD_TASK = "ADD_TASK";
@@ -180,6 +180,23 @@ const editTaskThunk = (task) => {
 	};
 };
 
+
+const editTaskOnDragThunk = (taskId) => {
+	console.log(taskId)
+	return async (dispatch, getState) => {
+		try {
+			let taskToChange = getState().tasks.tasks[taskId]
+			taskToChange.createdOn = Date.now().toString()
+			taskToChange.date = (new Date()).toISOString().split('T')[0];
+			console.log(taskToChange)
+			dispatch(editTaskAC(taskToChange));
+			await firestoreAPI.updateItem("tasks", taskToChange.id, taskToChange);
+		} catch (e) {
+			dispatch(taskErrorAC(`Error oquired: ${e.message}.Please reload the page`));
+		}
+	};
+};
+
 const deleteTaskThunk = (taskId) => {
 	return async (dispatch, getState) => {
 		try {
@@ -210,4 +227,5 @@ export {
 	deleteTaskThunk,
 	killProjectThunk,
 	onLogoutTasksAC,
+	editTaskOnDragThunk
 };

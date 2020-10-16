@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { ConnectedEditTaskForm } from "../../Tasks/EditTaskForm/ConnecteEditTaskForm";
-import { Button } from "../Button/Button";
-import { FadeComponent } from "../FadeComponent/FadeComponent";
-import { Preloader } from "./../../common/Preloader/Preloader";
+import { ConnectedEditTaskForm } from "../Tasks/EditTaskForm/ConnecteEditTaskForm";
+import { Button } from "../common/Button/Button";
+import { FadeComponent } from "../common/FadeComponent/FadeComponent";
+import { Preloader } from "../common/Preloader/Preloader";
 
 const TaskPage = ({ task, project, editTask, isLoading }) => {
 	const [editMode, setEditMode] = useState(false);

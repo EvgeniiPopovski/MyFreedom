@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import starFilled from "./../../../icons/star.svg";
-import starOutlined from "./../../../icons/star-outline.svg";
+import starFilled from "../../icons/star.svg";
+import starOutlined from "../../icons/star-outline.svg";
 import "./TaskListItem.scss";
-import { FadeComponent } from "../FadeComponent/FadeComponent";
+import { FadeComponent } from "../common/FadeComponent/FadeComponent";
 
 const TasksListItem = ({
 	id,
@@ -31,6 +31,7 @@ const TasksListItem = ({
 				{isFocusedOn ? (
 					<img
 						src={starFilled}
+						className='task_like-img'
 						alt="focused on task"
 						width="20px"
 						onClick={() =>
@@ -42,12 +43,14 @@ const TasksListItem = ({
 								isDone,
 								projectId,
 								description,
+								date,
 							})
 						}
 					/>
 				) : (
 					<img
 						src={starOutlined}
+						className='task_like-img'
 						alt="focused on task"
 						width="20px"
 						onClick={() =>
@@ -59,11 +62,12 @@ const TasksListItem = ({
 								isDone,
 								projectId,
 								description,
+								date,
 							})
 						}
 					/>
 				)}
-				<p className="tasks__item-isDone">Dat of expire: {date}</p>
+				<p className="tasks__item-isDone">Date of expire: {date}</p>
 				<p className="tasks__item-isDone">
 					Is done?
 					<input

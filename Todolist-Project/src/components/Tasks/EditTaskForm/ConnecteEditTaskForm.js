@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import { getProjectsAsArray } from '../../../redux/selectors/Selectors'
+import { getProjectsAsArray } from './../../ProjectsPage/projectsSelectors'
 import { deleteTaskThunk, editTaskThunk } from '../../../redux/tasksReduser'
 import { EditTaskForm } from './EditTaskForm'
 

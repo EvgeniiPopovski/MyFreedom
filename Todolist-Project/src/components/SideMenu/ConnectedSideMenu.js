@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import { getIsLoadingProgects, getProjectsAsArray } from '../../redux/selectors/Selectors'
+import { getIsLoadingProgects, getProjectsAsArray } from './../ProjectsPage/projectsSelectors'
 import { getProgectsThunk } from '../../redux/projectsReduser'
 import { SideMenu } from './SideMenu'
 import { getTasksThunk } from '../../redux/tasksReduser'

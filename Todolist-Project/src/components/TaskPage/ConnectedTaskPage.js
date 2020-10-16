@@ -1,6 +1,7 @@
 import {connect} from 'react-redux'
-import { getProject, getTask } from '../../../redux/selectors/Selectors'
-import { editTaskThunk } from '../../../redux/tasksReduser'
+import { getProject } from './../ProjectsPage/projectsSelectors'
+import {  getTask } from './tasksSelectors'
+import { editTaskThunk } from './../../redux/tasksReduser'
 import { TaskPage } from './TaskPage'
 
 const mapStateToProps = (state, ownProps) => {

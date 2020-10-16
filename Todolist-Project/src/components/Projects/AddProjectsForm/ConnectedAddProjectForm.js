@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { addProjectThunk } from "../../../redux/projectsReduser";
-import { getUserId } from "../../../redux/selectors/Selectors";
+import { getUserId } from "./../../Header/userSelector";
 import { AddProjectsForm } from "./AddProjectsForm";
 
 const mapStateToProps = (state) => {

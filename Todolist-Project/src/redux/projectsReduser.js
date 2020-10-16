@@ -1,7 +1,7 @@
 import { firestoreAPI } from "../firebaseAPI/firebase";
 import { killProjectThunk } from "./tasksReduser";
 import { batch } from "react-redux";
-import { getUserId } from "./selectors/Selectors";
+import { getUserId } from "./../components/Header/userSelector";
 
 const GET_PROJECTS = "GET_PROJECTS";
 const ADD_PROJECT = "ADD_PROJECT";

@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import { getUser, getUserError } from '../../redux/selectors/Selectors'
+import { getUser, getUserError } from '../Header/userSelector'
 import { registerThunk, signInWithGoogleThunk, userErrorRegisterAC } from '../../redux/userReduser'
 import {RegistrationForm} from '../RegistrationForm/RegistrationForm'
 

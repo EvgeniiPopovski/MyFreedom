@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { deleteProjectThunk, editProjectThunk } from "../../../redux/projectsReduser";
-import { getProjectsAsArray } from "../../../redux/selectors/Selectors";
+import { getProjectsAsArray } from "./../../ProjectsPage/projectsSelectors";
 
 import { EditProjectForm } from "./EditProjectForm";
 

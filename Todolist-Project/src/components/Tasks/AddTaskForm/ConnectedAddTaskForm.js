@@ -1,6 +1,7 @@
 import { connect } from "react-redux"
 import { AddTaskForm } from "./AddTaskForm"
-import {getProjectsAsArray, getUserId} from '../../../redux/selectors/Selectors'
+import {getProjectsAsArray} from '../../ProjectsPage/projectsSelectors'
+import { getUserId} from './../../Header/userSelector'
 import { addTaskThunk } from "../../../redux/tasksReduser"
 
 const mapStateToProps = (state, ownProps) => {

@@ -1,6 +1,8 @@
 import {connect} from 'react-redux'
 import App from './App'
-import { getIsLoadingUser, getProjectsError, getTasksError, getUser } from './redux/selectors/Selectors'
+import { getProjectsError } from './components/ProjectsPage/projectsSelectors'
+import { getTasksError } from './components/TaskPage/tasksSelectors'
+import { getIsLoadingUser, getUser } from './components/Header/userSelector'
 
 const mapStateToProps = (state) => {
     return {

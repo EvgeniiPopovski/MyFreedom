@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {  getUser } from '../../redux/selectors/Selectors'
+import { getUser } from './userSelector'
 import { loadUserThunk, logoutThunk } from '../../redux/userReduser'
 import { Header } from './Header'
 

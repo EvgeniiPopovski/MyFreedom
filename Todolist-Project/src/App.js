@@ -5,16 +5,16 @@ import { ConnectedAddProjectForm } from "./components/Projects/AddProjectsForm/C
 import { ConenctedEditProjectForm } from "./components/Projects/EditProjectForm/ConenctedEditProjectForm";
 import { ConnectedSideMenu } from "./components/SideMenu/ConnectedSideMenu";
 import { AddTaskForm } from "./components/Tasks/AddTaskForm/AddTaskForm";
-import { ConnectedProjectPage } from "./components/common/ProjectsPage/ConectedProjectsPage";
-import { ConnectedInboxPage } from "./components/common/ConnectedInboxPage/ConnectedInboxPage";
-import { ConnectedFocusedPage } from "./components/common/ConnectedFocusedPage/ConnectedFocusedPage";
-import { ConnectedTaskPage } from "./components/common/TaskPage/ConnectedTaskPage";
+import { ConnectedTaskPage } from "./components/TaskPage/ConnectedTaskPage";
 import { WelcomePage } from "./components/WelcomePage/WelcomePage";
 import { ConnectedRegistrationForm } from "./components/RegistrationForm/ConnectedRegistrationForm";
 import { ConnectedLoginForm } from "./components/LoginForm/ConnectedLogin";
 import { ConnectedHeader } from "./components/Header/ConnectedHeader";
 import { Preloader } from "./components/common/Preloader/Preloader";
 import { ErrorMessage } from "./components/common/ErrorMessage/ErrorMessage";
+import { ConnectedFocusedPage } from "./components/ConnectedFocusedPage/ConnectedFocusedPage";
+import { ConnectedInboxPage } from "./components/ConnectedInboxPage/ConnectedInboxPage";
+import { ConnectedProjectPage } from "./components/ProjectsPage/ConectedProjectsPage";
 
 function App({ user, isLoading, errors }) {
 	const [showMenu, setShowMenu] = useState(true);
@@ -59,7 +59,7 @@ function App({ user, isLoading, errors }) {
 									<Redirect to="/Inbox" />
 								</Route>
 								<Route exact path="/Inbox">
-										<ConnectedInboxPage />
+									<ConnectedInboxPage />
 								</Route>
 								<Route exact path="/Focused">
 									<ConnectedFocusedPage />

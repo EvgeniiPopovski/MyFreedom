@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { getUser, getUserError } from "../../redux/selectors/Selectors";
+import { getUser, getUserError } from "../Header/userSelector";
 import { loginThunk, signInWithGoogleThunk, userErrorLoginAC } from "../../redux/userReduser";
 import { LoginForm } from "./LoginForm";
 
