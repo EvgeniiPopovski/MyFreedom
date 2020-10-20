@@ -24,6 +24,7 @@ const sortTasksByTimeStmap = (array) => {
 };
 
 const sortTasksByIsDone = (state) => {
+	console.log(state)
 	return sortTasksByTimeStmap(state).sort((a, b) => a.isDone - b.isDone);
 };
 const getIsLoadingPTasks = (state) => {
@@ -43,11 +44,10 @@ const getActualTasks = (state, date , filterCriteria) => {
 	let filtered = tasksArray.filter((task) => task.date >= date);
 	filtered = sortTasksByIsDone(filtered)
 	let filteredArray = filtered.filter((item) => item.projectId === filterCriteria)
-	
+	console.log("actual: ", filteredArray)
 	return filteredArray
 };
 
-// getFilteredTasksByProject( sortTasksByIsDone(getActualTasks(state , date)), 'inbox')
 
 export {
 	getTasksError,

@@ -83,6 +83,7 @@ const TasksListItem = ({
 								isDone: !isDone,
 								projectId,
 								description,
+								date
 							});
 						}}
 					/>
